@@ -7,7 +7,190 @@
 //
 
 #import "SGDownloadOperation.h"
+#import <CommonCrypto/CommonCrypto.h>
+
+#define KFullPath [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]
+
+#define KFullDirector [NSString stringWithFormat:@"%@/downloads",KFullPath]
+
+static NSString * const totalSize = @"totalSize";
+
+@interface SGDownloadOperation ()
+/** 文件句柄 可以记录文件的下载的位置 */
+@property (nonatomic,strong) NSFileHandle *handle;
+
+/** 下载的文件总大小 */
+@property (nonatomic,assign) NSInteger totalSize;
+
+/** 当前下载了多少 */
+@property (nonatomic,assign) NSInteger currentSize;
+
+/** 当前下载文件名称 */
+@property (nonatomic,copy) NSString *fileName;
+
+/** 当前下载文件沙盒全路径 */
+@property (nonatomic,copy) NSString *fullPath;
+
+
+@end
 
 @implementation SGDownloadOperation
+
+- (instancetype)initWith:(NSString *)url session:(NSURLSession *)session {
+    
+    if (self = [super init]) {
+        [self setUrl:url];
+        [self setSession:session];
+        [self setOperations];
+    }
+    return self;
+}
+
+#pragma mark - operations
+// 接收到相应时
+- (void)sg_didReceiveResponse:(NSURLResponse *)response {
+    self.totalSize = self.currentSize + response.expectedContentLength;
+    
+    // 创建空的文件夹
+    if (self.currentSize == 0) {
+        [[NSFileManager defaultManager]  createFileAtPath:self.fullPath contents:nil attributes:nil];
+    }
+    
+    // 创建文件句柄
+    self.handle = [NSFileHandle fileHandleForWritingAtPath:self.fullPath];
+    // 文件句柄移动到文件末尾 位置 // 返回值是 unsign long long
+    [self.handle seekToEndOfFile];
+    
+    // 偏好设置记录文件总大小
+    [[NSUserDefaults standardUserDefaults] setInteger:self.totalSize forKey:self.fileName];
+}
+
+- (void)sg_didReceivData:(NSData *)data {
+    // 获得已经下载的文件大小
+    self.currentSize += data.length;
+    
+    // 下载状态 通知代理
+    //[self downloading];
+    
+    // 写入文件
+    [self.handle writeData:data];
+
+}
+
+- (void)sg_didComplete:(NSError *)error {
+    [self.handle closeFile];
+    self.handle = nil;
+    
+    // 完成下载 通知代理 block
+    //[self completionDownload:error];
+    
+}
+
+#pragma mark - setter
+- (void)setOperations {
+
+    __weak SGDownloadOperation * weakS = self;
+    
+    _didReceiveResponse = ^(NSURLResponse *response) {
+        [weakS sg_didReceiveResponse:response];
+    };
+    
+    _didReceivData = ^(NSData *data) {
+        [weakS sg_didReceivData:data];
+    };
+    
+    _didComplete = ^(NSError *error) {
+        [weakS sg_didComplete:error];
+    };
+}
+
+- (void)setUrl:(NSString *)url {
+    
+    _url = url;
+    
+    // 设置文件路径
+    [self setFilePath];
+  
+    // 获取文件信息
+    [self setFileInfo];
+}
+
+- (void)setSession:(NSURLSession *)session {
+    // 创建请求 设置请求下载的位置
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.url]];
+    
+    /*
+     bytes=0-100    请求0-100
+     bytes=200-1000
+     bytes=200-     从200开始直到结尾
+     bytes=-100
+     */
+    NSString *rangeStr = [NSString stringWithFormat:@"bytes=%zd-",self.currentSize];
+    
+    [request setValue:rangeStr forHTTPHeaderField:@"Range"];
+    
+    // 创建task
+    _dataTask = [session dataTaskWithRequest:request];
+    
+}
+
+- (void)setFilePath {
+    // md5 文件名加密
+    NSString *md5FielName = [self md5StringWitUrl:self.url];
+    NSString *originFileName = [self.url lastPathComponent];
+    NSArray *subString = [originFileName componentsSeparatedByString:@"."];
+    self.fileName = [md5FielName stringByAppendingString:subString.lastObject];
+    
+    // 创建文件储存路径
+    if (![[NSFileManager defaultManager] fileExistsAtPath:KFullDirector]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:KFullDirector withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    // 设置路径
+    self.fullPath = [KFullDirector stringByAppendingString:self.fileName];
+}
+
+- (void)setFileInfo {
+    
+    NSDictionary *fileInfo = [[NSFileManager defaultManager] attributesOfItemAtPath:self.fullPath error:nil];
+    
+    self.currentSize = [fileInfo[NSFileSize] integerValue];
+    
+    // 偏好设置里面存储总数据
+    self.totalSize = [[NSUserDefaults standardUserDefaults] integerForKey:self.fileName];
+    
+}
+
+
+#pragma mark - MD5加密
+- (NSString *)md5StringWitUrl:(NSString *)url {
+    const char *str = url.UTF8String;
+    
+    uint8_t buffer[CC_MD5_DIGEST_LENGTH];
+    
+    CC_MD5(str, (CC_LONG)strlen(str), buffer);
+    
+    return [self stringFromBytes:buffer length:CC_MD5_DIGEST_LENGTH];
+
+}
+
+/**
+ *  返回二进制 Bytes 流的字符串表示形式
+ *
+ *  @param bytes  二进制 Bytes 数组
+ *  @param length 数组长度
+ *
+ *  @return 字符串表示形式
+ */
+- (NSString *)stringFromBytes:(uint8_t *)bytes length:(int)length {
+    NSMutableString *strM = [NSMutableString string];
+    
+    for (int i = 0; i < length; i++) {
+        [strM appendFormat:@"%02x", bytes[i]];
+    }
+    
+    return [strM copy];
+}
+
 
 @end

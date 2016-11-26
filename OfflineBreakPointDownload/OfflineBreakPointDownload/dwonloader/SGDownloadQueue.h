@@ -1,5 +1,5 @@
 //
-//  SGDownloadManager.h
+//  SGDownloadQueue.h
 //  OfflineBreakPointDownload
 //
 //  Created by Shangen Zhang on 16/11/26.
@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SGDownloadManager : NSObject
 
-+ (instancetype)shareManager;
+@interface SGDownloadQueue : NSObject
+
+- (NSURLSessionDataTask *)dataTaskWithUrl:(NSString *)url Session:(NSURLSession *)sesssion;
+
 
 
 @end

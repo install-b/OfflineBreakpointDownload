@@ -16,6 +16,7 @@
 		A75D1E811DE9532B0008BAF6 /* SGDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E801DE9532B0008BAF6 /* SGDownloadManager.m */; };
 		A75D1E841DE953470008BAF6 /* SGDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E831DE953470008BAF6 /* SGDownloader.m */; };
 		A75D1E871DE953610008BAF6 /* SGDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E861DE953610008BAF6 /* SGDownloadOperation.m */; };
+		A75D1E8A1DE9763F0008BAF6 /* SGDownloadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E891DE9763F0008BAF6 /* SGDownloadQueue.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,8 @@
 		A75D1E831DE953470008BAF6 /* SGDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloader.m; sourceTree = "<group>"; };
 		A75D1E851DE953610008BAF6 /* SGDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloadOperation.h; sourceTree = "<group>"; };
 		A75D1E861DE953610008BAF6 /* SGDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadOperation.m; sourceTree = "<group>"; };
+		A75D1E881DE9763F0008BAF6 /* SGDownloadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloadQueue.h; sourceTree = "<group>"; };
+		A75D1E891DE9763F0008BAF6 /* SGDownloadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadQueue.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +99,8 @@
 				A75D1E801DE9532B0008BAF6 /* SGDownloadManager.m */,
 				A75D1E821DE953470008BAF6 /* SGDownloader.h */,
 				A75D1E831DE953470008BAF6 /* SGDownloader.m */,
+				A75D1E881DE9763F0008BAF6 /* SGDownloadQueue.h */,
+				A75D1E891DE9763F0008BAF6 /* SGDownloadQueue.m */,
 				A75D1E851DE953610008BAF6 /* SGDownloadOperation.h */,
 				A75D1E861DE953610008BAF6 /* SGDownloadOperation.m */,
 			);
@@ -178,6 +183,7 @@
 				A75D1E841DE953470008BAF6 /* SGDownloader.m in Sources */,
 				A75D1E6C1DE94FEE0008BAF6 /* AppDelegate.m in Sources */,
 				A75D1E691DE94FEE0008BAF6 /* main.m in Sources */,
+				A75D1E8A1DE9763F0008BAF6 /* SGDownloadQueue.m in Sources */,
 				A75D1E811DE9532B0008BAF6 /* SGDownloadManager.m in Sources */,
 				A75D1E871DE953610008BAF6 /* SGDownloadOperation.m in Sources */,
 			);
