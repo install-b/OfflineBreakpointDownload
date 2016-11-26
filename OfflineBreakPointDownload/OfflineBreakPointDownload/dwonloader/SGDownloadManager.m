@@ -23,7 +23,7 @@ static SGDownloadManager *_instance;
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _instance = [[self allocWithZone:zone] init];
+        _instance = [[super allocWithZone:zone] init];
     });
     return _instance;
 }
@@ -33,7 +33,6 @@ static SGDownloadManager *_instance;
 }
 
 #pragma mark - 外界交互
-
 - (void)downloadWithURL:(NSURL *)url complete:(void(^)(NSDictionary *respose,NSError *error))complete{
     [self downloadWithURL:url begin:nil progress:nil complete:complete];
 }
@@ -46,7 +45,7 @@ static SGDownloadManager *_instance;
     
     // 本地查找
     
-    
+   
     // 交给downloader下载
     [self.downloader downloadWithURL:url begin:begin progress:progress complete:complete];
 

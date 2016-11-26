@@ -8,10 +8,11 @@
 
 #import "SGDownloadOperation.h"
 #import <CommonCrypto/CommonCrypto.h>
+#import "SGCacheManager.h"
 
 #define KFullPath [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]
 
-#define KFullDirector [NSString stringWithFormat:@"%@/downloads",KFullPath]
+#define KFullDirector [NSString stringWithFormat:@"%@/downloads/",KFullPath]
 
 //static NSString * const totalSize = @"totalSize";
 
@@ -55,7 +56,11 @@
     }
     
     // 回调给外界
-    !self.didReceiveResponse ? : self.didReceiveResponse(self.fullPath);
+    //!self.didReceiveResponse ? : self.didReceiveResponse(self.fullPath);
+    
+    if (self.didReceiveResponse) {
+        self.didReceiveResponse(self.fullPath);
+    }
     
     // 创建文件句柄
     self.handle = [NSFileHandle fileHandleForWritingAtPath:self.fullPath];
@@ -64,6 +69,9 @@
     
     // 偏好设置记录文件总大小
     [[NSUserDefaults standardUserDefaults] setInteger:self.totalSize forKey:self.fileName];
+    
+    NSLog(@"%@\n%@",self.fileName,self.fullPath);
+    
 }
 
 - (void)sg_didReceivData:(NSData *)data {
@@ -71,7 +79,13 @@
     self.currentSize += data.length;
     
     // 下载状态 通知代理
-    !self.didReceivData ? : self.didReceivData(self.currentSize,self.totalSize);
+    //!self.didReceivData ? : self.didReceivData(self.currentSize,self.totalSize);
+    
+    if (self.didReceivData) {
+        self.didReceivData(self.currentSize,self.totalSize);
+    }
+    
+    //NSLog(@"++++++%.2f+++++",1.0 * self.currentSize / self.totalSize);
     
     // 写入文件
     [self.handle writeData:data];
@@ -82,14 +96,15 @@
     [self.handle closeFile];
     self.handle = nil;
     
+    NSLog(@"complete:---%@",self.fullPath);
+    
     // 完成下载 通知代理 block
-    error ? self.didComplete(nil,error) : [self completCucesse];
+    //error ? self.didComplete(nil,error) : [self completCucesse];
     
     if (error) {
         !self.didComplete? : self.didComplete(nil,error);
         // 发通知
-#warning 发通知
-
+        [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:@(0) userInfo:@{@"error":error}];
     } else {
         [self completCucesse];
     }
@@ -97,10 +112,6 @@
 
 - (void)completCucesse {
     
-    NSString *filePath = @"filePath";
-    NSString *fileSize = @"fileSize";
-    NSString *fileName = @"fileName";
-    NSString *fileUrl  = @"fileUrl";
     NSDictionary *dict = @{
                            fileUrl  : self.url,
                            fileName : self.fileName,
@@ -109,8 +120,11 @@
                            };
     
     !self.didComplete ? : self.didComplete(dict,nil);
-#warning 通知完善
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"" object:@(1) userInfo:dict];
+    if (self.didComplete) {
+        self.didComplete(dict,nil);
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:@(1) userInfo:dict];
 }
 
 #pragma mark - setter
@@ -150,6 +164,7 @@
     // 创建task
     _dataTask = [session dataTaskWithRequest:request];
     
+
 }
 
 - (void)setFilePath {
@@ -157,7 +172,7 @@
     NSString *md5FielName = [self md5StringWitUrl:self.url];
     NSString *originFileName = [self.url lastPathComponent];
     NSArray *subString = [originFileName componentsSeparatedByString:@"."];
-    self.fileName = [md5FielName stringByAppendingString:subString.lastObject];
+    self.fileName = [NSString stringWithFormat:@"%@.%@",md5FielName,subString.lastObject];
     
     // 创建文件储存路径
     if (![[NSFileManager defaultManager] fileExistsAtPath:KFullDirector]) {
@@ -176,8 +191,6 @@
     
     // 偏好设置里面存储总数据
     self.totalSize = [[NSUserDefaults standardUserDefaults] integerForKey:self.fileName];
-    
-    
 }
 
 

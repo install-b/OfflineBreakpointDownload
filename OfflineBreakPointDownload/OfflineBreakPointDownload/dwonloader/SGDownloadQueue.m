@@ -24,6 +24,10 @@
 
     if (self = [super init]) {
         self.session = sesseion;
+        
+        // 监听完成通知
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didResiveDownloadFileCompete:) name:@"" object:nil];
+        
     }
     return self;
 }
@@ -32,38 +36,71 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)didResiveDownloadFileCompete:(NSNotification *)noti {
+
+}
+
 #pragma mark - handle Out operations
 - (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet {
     // 获取operation对象
     SGDownloadOperation *operation = [self operationWithUrl:url.absoluteString shouldAddOperation:YES];
+   
+//    operation.didReceiveResponse = begin;
+//    operation.didReceivData = progress;
+//    operation.didComplete = complet;
+    //[self.operations addObject:operation];
     
-    // 回调赋值operation
-    operation.didReceiveResponse = begin;
-    operation.didReceivData = progress;
-    operation.didComplete = complet;
+//    
+    if (!operation) {
+        operation = [[SGDownloadOperation alloc] initWith:url.absoluteString session:self.session];
+        // 回调赋值operation
+        operation.didReceiveResponse = begin;
+        operation.didReceivData = progress;
+        operation.didComplete = complet;
+        [self.operations addObject:operation];
+    }
     
-    // 开启下载
     [operation.dataTask resume];
+    
 }
 
 - (void)operateDownloadWithUrl:(NSString *)url handle:(DownloadHandleType)handle{
     
-    //SGDownloadOperation *operation = [self operationWithUrl:url];
-    
     switch (handle) {
         case DownloadHandleTypeStart:
-            [[self operationWithUrl:url shouldAddOperation:YES].dataTask resume];
+            [[self dataTaskWithUrl:url] resume]; // 开始
             break;
         case DownloadHandleTypeSuspend:
-            [[self operationWithUrl:url shouldAddOperation:NO].dataTask suspend];
+            [[self dataTaskWithUrl:url] suspend]; // 暂停
             break;
         case DownloadHandleTypeCancel:
-            [[self operationWithUrl:url shouldAddOperation:NO].dataTask cancel];
+            [[self dataTaskWithUrl:url] cancel];  // 取消
             break;
     }
 }
 
 #pragma mark - query operation
+- (NSURLSessionDataTask *)dataTaskWithUrl:(NSString *)url {
+    
+    __block NSURLSessionDataTask *task = nil;
+    
+    
+    [self.operations enumerateObjectsUsingBlock:^(SGDownloadOperation * _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([obj.url isEqualToString:url]) {
+            task = obj.dataTask;
+            
+            *stop = YES;
+        }
+    }];
+    
+    if (!task) {
+        SGDownloadOperation *opt = [[SGDownloadOperation alloc] initWith:url session:self.session];
+        [self.operations addObject:opt];
+        task = opt.dataTask;
+    }
+    
+    return task;
+}
 - (SGDownloadOperation *)operationWithUrl:(NSString *)url shouldAddOperation:(BOOL)isAdd{
     __block SGDownloadOperation *operation = nil;
     
@@ -74,11 +111,10 @@
         }
     }];
     
-    if (!operation && isAdd) {
-        SGDownloadOperation *operation = [[SGDownloadOperation alloc] initWith:url session:self.session];
-    
-        [self.operations addObject:operation];
-    }
+//    if (!operation && isAdd) {
+//        operation = [[SGDownloadOperation alloc] initWith:url session:self.session];
+//        [self.operations addObject:operation];
+//    }
     return operation;
 }
 

@@ -23,6 +23,7 @@
 
 - (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet {
     
+    // 交给列队管理
     [self.queue downloadWithURL:url begin:begin progress:progress complete:complet];
     
 }

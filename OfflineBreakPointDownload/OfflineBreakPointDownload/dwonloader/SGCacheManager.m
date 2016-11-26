@@ -10,9 +10,20 @@
 #import <CommonCrypto/CommonCrypto.h>
 
 
+
 static SGCacheManager *_instance;
 
+
+NSString const * filePath = @"filePath";
+NSString const * fileSize = @"fileSize";
+NSString const * fileName = @"fileName";
+NSString const * fileUrl  = @"fileUrl";
+
+NSString const * SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
+
 @implementation SGCacheManager
+
+
 +(instancetype)allocWithZone:(struct _NSZone *)zone {
     
     static dispatch_once_t onceToken;

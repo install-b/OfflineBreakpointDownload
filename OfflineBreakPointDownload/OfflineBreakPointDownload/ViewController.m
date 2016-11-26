@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "SGDownloadManager.h"
 
 @interface ViewController ()
+
+@property(nonatomic,strong) NSArray *dataList;
 
 @end
 
@@ -16,14 +19,53 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
 }
 
+- (IBAction)clickDownload:(UIButton *)sender {
+    
+    sender.selected = !sender.selected;
+    
+    NSInteger index = sender.tag - 11;
+    
+    // 越界 校验
+    if (index >= self.dataList.count || index < 0) {
+        return;
+    }
+    
+    
+    NSURL *url = [NSURL URLWithString:self.dataList[index]];
+    
+    SGDownloadManager *manager = [SGDownloadManager shareManager];
+    
+    if (sender.selected) {
+        [manager downloadWithURL:url progress:^(NSInteger completeSize, NSInteger expectSize) {
+            
+            NSLog(@"任务：%zd -- %.2f",index,1.0 * completeSize / expectSize);
+            
+        } complete:^(NSDictionary *respose, NSError *error) {
+            if(error) {
+                NSLog(@"任务：%zd 下载错误%@",index,error);
+            }
+            NSLog(@"任务：%zd 下载完成%@",index,respose);
+        }];
+    }else {
+        [manager supendDownloadWithUrl:url.absoluteString];
+    }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    
 }
 
+- (NSArray *)dataList {
+    if (!_dataList) {
+        _dataList = @[
+                      @"http://120.25.226.186:32812/resources/videos/minion_04.mp4",
+                      @"http://120.25.226.186:32812/resources/videos/minion_05.mp4",
+                      @"http://120.25.226.186:32812/resources/videos/minion_06.mp4"
+                      ];
+    }
+    
+    return _dataList;
+}
 
 @end

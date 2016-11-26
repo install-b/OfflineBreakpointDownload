@@ -25,7 +25,7 @@ typedef  enum : NSUInteger {
 
 - (void)operateDownloadWithUrl:(NSString *)url handle:(DownloadHandleType)handle;
 
-
+- (NSURLSessionDataTask *)dataTaskWithUrl:(NSString *)url;
 // 供download下载调用
 - (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response;
 
