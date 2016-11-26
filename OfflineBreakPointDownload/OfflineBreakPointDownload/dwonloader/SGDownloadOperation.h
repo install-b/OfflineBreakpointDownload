@@ -12,18 +12,19 @@
 
 - (instancetype)initWith:(NSString *)url session:(NSURLSession *)session;
 
+//  绑定的标示及task的创建
 @property (nonatomic, copy)NSString *url;
 
 @property (nonatomic,strong)NSURLSessionDataTask *dataTask;
 
+// 回调的方法
+@property (nonatomic, copy) void(^didReceiveResponse)(NSString *filePath);
 
-@property (nonatomic, copy) void(^didReceiveResponse)(NSURLResponse *response);
+//@property (nonatomic, copy) void (^completionHandler)(NSURLSessionResponseDisposition disposition);
 
-@property (nonatomic, copy) void (^completionHandler)(NSURLSessionResponseDisposition disposition);
+@property (nonatomic, copy) void(^didReceivData)(NSInteger completeSize,NSInteger expectSize);
 
-@property (nonatomic, copy) void(^didReceivData)(NSData *data);
-
-@property (nonatomic, copy) void(^didComplete)(NSError *error);
+@property (nonatomic, copy) void(^didComplete)(NSDictionary *respose,NSError *error);
 
 // 供queue管理方法
 - (void)sg_didReceiveResponse:(NSURLResponse *)response;

@@ -10,4 +10,6 @@
 
 @interface SGDownloader : NSObject
 
+- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet;
+
 @end

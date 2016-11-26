@@ -21,17 +21,24 @@
 
 @implementation SGDownloader
 
-- (void)startDownLoadWithUrl:(NSString *)url {
+- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet {
     
-    [[self.queue dataTaskWithUrl:url Session:self.session] resume];
+    
+}
+
+#pragma mark -
+
+- (void)startDownLoadWithUrl:(NSString *)url {
+
+    [self.queue operateDownloadWithUrl:url handle:DownloadHandleTypeStart];
 }
 
 - (void)supendDownloadWithUrl:(NSString *)url {
-    [[self.queue dataTaskWithUrl:url Session:self.session] suspend];
+    [self.queue operateDownloadWithUrl:url handle:DownloadHandleTypeSuspend];
 }
 
 - (void)cancelDownloadWithUrl:(NSString *)url {
-     [[self.queue dataTaskWithUrl:url Session:self.session] cancel];
+    [self.queue operateDownloadWithUrl:url handle:DownloadHandleTypeCancel];
 }
 
 
@@ -72,7 +79,7 @@ didCompleteWithError:(nullable NSError *)error {
 - (SGDownloadQueue *)queue {
 
     if (!_queue) {
-        _queue = [[SGDownloadQueue alloc] init];
+        _queue = [[SGDownloadQueue alloc] initWithSession:self.session];
     }
     return _queue;
 }

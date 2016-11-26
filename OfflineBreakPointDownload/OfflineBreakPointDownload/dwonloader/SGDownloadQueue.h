@@ -9,9 +9,22 @@
 #import <Foundation/Foundation.h>
 
 
+typedef  enum : NSUInteger {
+    DownloadHandleTypeStart,
+    DownloadHandleTypeSuspend,
+    DownloadHandleTypeCancel,
+}  DownloadHandleType;
+
+
 @interface SGDownloadQueue : NSObject
 
-- (NSURLSessionDataTask *)dataTaskWithUrl:(NSString *)url Session:(NSURLSession *)sesssion;
+- (instancetype)initWithSession:(NSURLSession *)sesseion;
+
+
+- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet;
+
+- (void)operateDownloadWithUrl:(NSString *)url handle:(DownloadHandleType)handle;
+
 
 // 供download下载调用
 - (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response;
