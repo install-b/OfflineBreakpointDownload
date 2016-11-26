@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "SGDownloadManager.h"
+#import "SGCacheManager.h"
 
 @interface ViewController ()
 
@@ -19,6 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [SGCacheManager shareManager];
 }
 
 - (IBAction)clickDownload:(UIButton *)sender {
@@ -31,7 +33,6 @@
     if (index >= self.dataList.count || index < 0) {
         return;
     }
-    
     
     NSURL *url = [NSURL URLWithString:self.dataList[index]];
     
@@ -47,14 +48,16 @@
                 NSLog(@"任务：%zd 下载错误%@",index,error);
             }
             NSLog(@"任务：%zd 下载完成%@",index,respose);
+            
+            [sender setTitle:@"完成" forState:UIControlStateDisabled];
+            sender.enabled = NO;
+            
         }];
     }else {
         [manager supendDownloadWithUrl:url.absoluteString];
     }
-
-    
-    
 }
+
 
 - (NSArray *)dataList {
     if (!_dataList) {

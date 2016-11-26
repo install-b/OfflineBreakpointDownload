@@ -7,9 +7,7 @@
 //
 
 #import "SGCacheManager.h"
-#import <CommonCrypto/CommonCrypto.h>
-
-
+#import "NSString+SGHashString.h"
 
 static SGCacheManager *_instance;
 
@@ -19,56 +17,51 @@ NSString const * fileSize = @"fileSize";
 NSString const * fileName = @"fileName";
 NSString const * fileUrl  = @"fileUrl";
 
-NSString const * SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
+NSString  * SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
+
 
 @implementation SGCacheManager
-
 
 +(instancetype)allocWithZone:(struct _NSZone *)zone {
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _instance = [super allocWithZone:zone];
+        _instance = [[super allocWithZone:zone] init];
+        
     });
     return _instance;
 }
-
-
 + (instancetype)shareManager {
-    return [[self alloc] init];
+    return [self alloc];
 }
 
 
-
-
-#pragma mark - MD5加密
-- (NSString *)md5StringWitUrl:(NSString *)url {
-    const char *str = url.UTF8String;
-    
-    uint8_t buffer[CC_MD5_DIGEST_LENGTH];
-    
-    CC_MD5(str, (CC_LONG)strlen(str), buffer);
-    
-    return [self stringFromBytes:buffer length:CC_MD5_DIGEST_LENGTH];
-    
-}
-
-/**
- *  返回二进制 Bytes 流的字符串表示形式
- *
- *  @param bytes  二进制 Bytes 数组
- *  @param length 数组长度
- *
- *  @return 字符串表示形式
- */
-- (NSString *)stringFromBytes:(uint8_t *)bytes length:(int)length {
-    NSMutableString *strM = [NSMutableString string];
-    
-    for (int i = 0; i < length; i++) {
-        [strM appendFormat:@"%02x", bytes[i]];
+- (instancetype)init {
+    if (self = [super init]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReciveDownloadCompleteNoti:) name:SGDownloadCompleteNoti object:nil];
+        
     }
+    return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)didReciveDownloadCompleteNoti:(NSNotification *)noti {
     
-    return [strM copy];
+    // 缓存记录
+    
+    
+}
+
+#pragma mark -
+- (NSDictionary *)fileInfoWithUrl:(NSString *)url {
+    
+    // 本地查找
+    
+    
+    return nil;
 }
 
 

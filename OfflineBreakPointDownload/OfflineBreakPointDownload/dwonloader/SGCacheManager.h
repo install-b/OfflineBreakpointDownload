@@ -10,18 +10,16 @@
 
 
 SG_EXTERN NSString const * filePath;
-SG_EXTERN NSString const * fileSize ;
-SG_EXTERN NSString const * fileName ;
-SG_EXTERN NSString const * fileUrl ;
+SG_EXTERN NSString const * fileSize;
+SG_EXTERN NSString const * fileName;
+SG_EXTERN NSString const * fileUrl;
 
 SG_EXTERN NSString * SGDownloadCompleteNoti;
-
-
 
 @interface SGCacheManager : NSObject
 
 + (instancetype)shareManager;
 
-
+- (NSDictionary *)fileInfoWithUrl:(NSString *)url;
 
 @end
