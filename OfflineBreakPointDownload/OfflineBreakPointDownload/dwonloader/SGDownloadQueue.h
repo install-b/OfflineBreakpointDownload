@@ -13,6 +13,10 @@
 
 - (NSURLSessionDataTask *)dataTaskWithUrl:(NSString *)url Session:(NSURLSession *)sesssion;
 
+// 供download下载调用
+- (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response;
 
+- (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data;
 
+- (void)task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error;
 @end

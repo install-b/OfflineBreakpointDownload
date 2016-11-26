@@ -20,6 +20,7 @@
 @end
 
 @implementation SGDownloader
+
 - (void)startDownLoadWithUrl:(NSString *)url {
     
     [[self.queue dataTaskWithUrl:url Session:self.session] resume];
@@ -41,21 +42,20 @@
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     
-    
+    [self.queue dataTask:dataTask didReceiveResponse:response];
     completionHandler(NSURLSessionResponseAllow);
 }
 
 // 接受到数的时候调用，调用多次
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data {
-    
+    [self.queue dataTask:dataTask didReceiveData:data];
 }
 
 // <NSURLSessionDataDelegate> 完成下载
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didCompleteWithError:(nullable NSError *)error {
-    
- 
+    [self.queue task:task didCompleteWithError:error];
 }
 
 

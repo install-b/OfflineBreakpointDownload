@@ -18,9 +18,6 @@
 
 @implementation SGDownloadQueue
 
-
-
-
 // 获取下载task
 - (NSURLSessionDataTask *)dataTaskWithUrl:(NSString *)url Session:(NSURLSession *)sesssion {
     
@@ -40,7 +37,37 @@
     }
     
     return task;
+}
+
+// 寻找operation
+- (SGDownloadOperation *)oprationWithDataTask:(NSURLSessionTask *)dataTask {
+
+    __block SGDownloadOperation *operation = nil;
     
+    [self.operations enumerateObjectsUsingBlock:^(SGDownloadOperation * _Nonnull obj, BOOL * _Nonnull stop) {
+        if (obj.dataTask == dataTask) {
+            operation = obj;
+            *stop = YES;
+        }
+    }];
+    
+    return operation;
+}
+
+
+#pragma mark - download manager
+- (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response {
+    
+    [[self oprationWithDataTask:dataTask] sg_didReceiveResponse:response];
+}
+
+- (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
+    [[self oprationWithDataTask:dataTask] sg_didReceivData:data];
+}
+
+
+- (void)task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    [[self oprationWithDataTask:task] sg_didComplete:error];
 }
 
 
