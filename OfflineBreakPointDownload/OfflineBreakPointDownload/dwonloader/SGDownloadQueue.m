@@ -35,7 +35,7 @@
 #pragma mark - handle Out operations
 - (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet {
     // 获取operation对象
-    SGDownloadOperation *operation = [self operationWithUrl:url.absoluteString];
+    SGDownloadOperation *operation = [self operationWithUrl:url.absoluteString shouldAddOperation:YES];
     
     // 回调赋值operation
     operation.didReceiveResponse = begin;
@@ -48,23 +48,23 @@
 
 - (void)operateDownloadWithUrl:(NSString *)url handle:(DownloadHandleType)handle{
     
-    SGDownloadOperation *operation = [self operationWithUrl:url];
+    //SGDownloadOperation *operation = [self operationWithUrl:url];
     
     switch (handle) {
         case DownloadHandleTypeStart:
-            [operation.dataTask resume];
+            [[self operationWithUrl:url shouldAddOperation:YES].dataTask resume];
             break;
         case DownloadHandleTypeSuspend:
-            [operation.dataTask suspend];
+            [[self operationWithUrl:url shouldAddOperation:NO].dataTask suspend];
             break;
         case DownloadHandleTypeCancel:
-            [operation.dataTask cancel];
+            [[self operationWithUrl:url shouldAddOperation:NO].dataTask cancel];
             break;
     }
 }
 
 #pragma mark - query operation
-- (SGDownloadOperation *)operationWithUrl:(NSString *)url {
+- (SGDownloadOperation *)operationWithUrl:(NSString *)url shouldAddOperation:(BOOL)isAdd{
     __block SGDownloadOperation *operation = nil;
     
     [self.operations enumerateObjectsUsingBlock:^(SGDownloadOperation * _Nonnull obj, BOOL * _Nonnull stop) {
@@ -74,7 +74,7 @@
         }
     }];
     
-    if (!operation) {
+    if (!operation && isAdd) {
         SGDownloadOperation *operation = [[SGDownloadOperation alloc] initWith:url session:self.session];
     
         [self.operations addObject:operation];

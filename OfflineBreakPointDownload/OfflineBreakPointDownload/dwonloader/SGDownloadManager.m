@@ -32,7 +32,7 @@ static SGDownloadManager *_instance;
     return [[self alloc] init];
 }
 
-#pragma mark -
+#pragma mark - 外界交互
 
 - (void)downloadWithURL:(NSURL *)url complete:(void(^)(NSDictionary *respose,NSError *error))complete{
     [self downloadWithURL:url begin:nil progress:nil complete:complete];
@@ -44,12 +44,35 @@ static SGDownloadManager *_instance;
 
 - (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complete {
     
-    
     // 本地查找
     
+    
     // 交给downloader下载
-    //    [self.downloader s]
+    [self.downloader downloadWithURL:url begin:begin progress:progress complete:complete];
 
+}
+
+
+- (void)startDownLoadWithUrl:(NSString *)url {
+    // 本地查找
+    
+    
+    [self startDownLoadWithUrl:url];
+}
+
+
+- (void)supendDownloadWithUrl:(NSString *)url {
+    [self.downloader supendDownloadWithUrl:url];
+}
+
+- (void)cancelDownloadWithUrl:(NSString *)url {
+    [self.downloader cancelDownloadWithUrl:url];
+}
+
+#pragma mark - 本地查询
+
+- (void)cheakOutFileWithUrl:(NSURL *)url {
+    
 }
 
 #pragma mark - 

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SGCacheManager.h"
 
 @interface SGDownloadOperation : NSObject
 
@@ -19,8 +20,6 @@
 
 // 回调的方法
 @property (nonatomic, copy) void(^didReceiveResponse)(NSString *filePath);
-
-//@property (nonatomic, copy) void (^completionHandler)(NSURLSessionResponseDisposition disposition);
 
 @property (nonatomic, copy) void(^didReceivData)(NSInteger completeSize,NSInteger expectSize);
 

@@ -12,4 +12,9 @@
 
 - (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet;
 
+- (void)startDownLoadWithUrl:(NSString *)url;
+
+- (void)supendDownloadWithUrl:(NSString *)url;
+
+- (void)cancelDownloadWithUrl:(NSString *)url;
 @end

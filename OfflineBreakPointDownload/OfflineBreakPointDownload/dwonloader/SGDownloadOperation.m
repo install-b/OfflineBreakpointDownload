@@ -31,7 +31,6 @@
 /** 当前下载文件沙盒全路径 */
 @property (nonatomic,copy) NSString *fullPath;
 
-
 @end
 
 @implementation SGDownloadOperation
