@@ -51,7 +51,7 @@ NSString  * SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
 - (void)didReciveDownloadCompleteNoti:(NSNotification *)noti {
     
     // 缓存记录
-    
+
     
 }
 
@@ -59,7 +59,6 @@ NSString  * SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
 - (NSDictionary *)fileInfoWithUrl:(NSString *)url {
     
     // 本地查找
-    
     
     return nil;
 }

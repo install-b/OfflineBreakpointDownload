@@ -73,7 +73,21 @@ didCompleteWithError:(nullable NSError *)error {
 - (NSURLSession *)session {
     
     if (!_session) {
-         _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+        
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        // 设置请求超时
+        config.timeoutIntervalForRequest = -1;
+        config.networkServiceType = NSURLNetworkServiceTypeVideo;
+        
+        /*
+         NSURLNetworkServiceTypeDefault = 0,	// Standard internet traffic
+         NSURLNetworkServiceTypeVoIP = 1,	// Voice over IP control traffic
+         NSURLNetworkServiceTypeVideo = 2,	// Video traffic
+         NSURLNetworkServiceTypeBackground = 3, // Background traffic
+         NSURLNetworkServiceTypeVoice = 4,	   // Voice data
+
+         */
+         _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     }
     
     return _session;
