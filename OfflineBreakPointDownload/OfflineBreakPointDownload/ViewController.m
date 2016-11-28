@@ -23,7 +23,7 @@
    
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [SGCacheManager clearDisks];
+    
 }
 
 - (IBAction)clickDownload:(UIButton *)sender {

@@ -41,8 +41,10 @@ NSString const * totalSize  =  @"totalSize";
 + (NSMutableDictionary *)getDownloadList {
     
     if (!_downloadList) { // 内存没有
-        _downloadList = [[NSArray arrayWithContentsOfFile:SGDownloadInfoPath] mutableCopy]; // 本地加载
-        _downloadList = _downloadList ? : [NSMutableDictionary dictionary];                 // 本地没有，分配内存
+        _downloadList = [[NSDictionary dictionaryWithContentsOfFile:SGDownloadInfoPath] mutableCopy]; // 本地加载
+        if (!_downloadList) { // 本地没有，分配内存
+            _downloadList = [NSMutableDictionary dictionary];
+        }
     }
     return _downloadList;
 }
@@ -100,11 +102,15 @@ NSString const * totalSize  =  @"totalSize";
 /**  增加配置信息 */
 + (BOOL)saveFileInfoWithDict:(NSDictionary *)dict {
     
+    
     NSString *key = [dict[fileUrl] sg_md5HashString];
     
-    [SGDownloadList setObject:dict forKey:key];
+   
+    NSMutableDictionary *dictM =  SGDownloadList;
     
-    return [SGDownloadList writeToFile:SGDownloadInfoPath atomically:YES];
+    [dictM setObject:dict forKey:key];
+    
+    return [dictM writeToFile:SGDownloadInfoPath atomically:YES];
     
 }
 

@@ -59,6 +59,9 @@ typedef enum : NSUInteger {
 /** 停止当前所有的下载任务 调用此方法会清空所有列队下载任务 */
 - (void)stopAllDownloads;
 
+/** 获取当前所有的下载任务 */
+- (NSArray *)currentDownloadTasks;
+
 #pragma mark - 配置操作（下载之前配置）
 /** 配置任务等待时间 默认超时为-1 */
 - (void)configRequestTimeOut:(NSTimeInterval)requestTimeOut;

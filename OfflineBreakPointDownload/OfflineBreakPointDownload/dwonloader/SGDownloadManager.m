@@ -57,7 +57,7 @@ static SGDownloadManager *_instance;
     // 本地查找
     NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url.absoluteString];
    
-    if (fileInfo) {
+    if ([fileInfo[isFinished] integerValue]) {
         !complete ? : complete(fileInfo,nil);
         return;
     }
@@ -88,17 +88,31 @@ static SGDownloadManager *_instance;
     [self.downloader cancelDownloadWithUrl:url];
 }
 
+
+/** 暂停当前所有的下载任务 下载任务不会从列队中删除 */
+- (void)suspendAllDownloadTask {
+
+}
+
+/** 开启当前列队中所有被暂停的下载任务 */
+- (void)startAllDownloadTask {
+
+}
+
+/** 停止当前所有的下载任务 调用此方法会清空所有列队下载任务 */
 - (void)stopAllDownloads {
     
     [_downloader cancelAllDownloads];
     _downloader = nil;
 }
 
-#pragma mark - 本地查询
+/** 获取当前所有的下载任务 */
+- (NSArray *)currentDownloadTasks {
 
-- (void)cheakOutFileWithUrl:(NSURL *)url {
     
+    return nil;
 }
+
 
 #pragma mark - 
 - (SGDownloader *)downloader {
