@@ -13,6 +13,7 @@ SG_EXTERN NSString const * filePath;
 SG_EXTERN NSString const * fileSize;
 SG_EXTERN NSString const * fileName;
 SG_EXTERN NSString const * fileUrl;
+SG_EXTERN NSString const * isFinished;
 
 SG_EXTERN NSString * SGDownloadCompleteNoti;
 
@@ -20,6 +21,7 @@ SG_EXTERN NSString * SGDownloadCompleteNoti;
 
 + (instancetype)shareManager;
 
+// 本地查找
 - (NSDictionary *)fileInfoWithUrl:(NSString *)url;
 
 @end

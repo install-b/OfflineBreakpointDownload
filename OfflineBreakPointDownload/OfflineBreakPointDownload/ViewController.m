@@ -66,9 +66,9 @@
 - (NSArray *)dataList {
     if (!_dataList) {
         _dataList = @[
-                      @"http://120.25.226.186:32812/resources/videos/minion_04.mp4",
-                      @"http://120.25.226.186:32812/resources/videos/minion_05.mp4",
-                      @"http://120.25.226.186:32812/resources/videos/minion_06.mp4"
+                      @"http://120.25.226.186:32812/resources/videos/minion_03.mp4",
+                      @"http://120.25.226.186:32812/resources/videos/minion_02.mp4",
+                      @"http://file02.16sucai.com/d/file/2014/0617/be2f5973a60156df0c6aeb2aace791c6.jpg"
                       ];
     }
     

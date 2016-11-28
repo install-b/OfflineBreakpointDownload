@@ -11,9 +11,9 @@
 
 
 @interface SGDownloadQueue ()
-
-@property (nonatomic,strong) NSMutableSet <SGDownloadOperation *>*operations;
-
+// 列队管理集合
+@property (nonatomic,strong) NSMutableSet <SGDownloadOperation *> *operations;
+// 由downloader赋值 用于创建task任务 共享session
 @property (nonatomic,strong) NSURLSession *session;
 
 @end
@@ -54,6 +54,11 @@
         operation = [[SGDownloadOperation alloc] initWith:url.absoluteString session:self.session];
         
         if (!(operation.dataTask)) {
+            // 没有下载任务代表已下载完成
+            NSDictionary *fileInfo = [[SGCacheManager shareManager] fileInfoWithUrl:url.absoluteString];
+            if (fileInfo && complet) {
+                complet(fileInfo,nil);
+            }
             return;
         }
         
@@ -75,6 +80,16 @@
     if (!operation) {
         return;
     } else if (!operation.dataTask) {
+        if (!operation.didComplete || !(handle == DownloadHandleTypeStart)) {
+            [self.operations removeObject:operation];
+            return;
+        }
+
+        NSDictionary *fileInfo = [[SGCacheManager shareManager] fileInfoWithUrl:url];
+        if (fileInfo) {
+            operation.didComplete(fileInfo,nil);
+        }
+        
         [self.operations removeObject:operation];
         return;
     }
@@ -95,27 +110,7 @@
 }
 
 #pragma mark - query operation
-//- (NSURLSessionDataTask *)dataTaskWithUrl:(NSString *)url {
-//    
-//    __block NSURLSessionDataTask *task = nil;
-//    
-//    
-//    [self.operations enumerateObjectsUsingBlock:^(SGDownloadOperation * _Nonnull obj, BOOL * _Nonnull stop) {
-//        if ([obj.url isEqualToString:url]) {
-//            task = obj.dataTask;
-//            
-//            *stop = YES;
-//        }
-//    }];
-//    
-//    if (!task) {
-//        SGDownloadOperation *opt = [[SGDownloadOperation alloc] initWith:url session:self.session];
-//        [self.operations addObject:opt];
-//        task = opt.dataTask;
-//    }
-//    
-//    return task;
-//}
+
 - (SGDownloadOperation *)operationWithUrl:(NSString *)url{
     __block SGDownloadOperation *operation = nil;
     

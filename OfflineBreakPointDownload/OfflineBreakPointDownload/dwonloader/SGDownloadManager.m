@@ -33,6 +33,16 @@ static SGDownloadManager *_instance;
     return [[self alloc] init];
 }
 
+#pragma mark - configs
+/** 配置任务等待时间 默认超时为-1 */
+- (void)configRequestTimeOut:(NSTimeInterval)requestTimeOut {
+    
+}
+/** 配置网络服务类型 */
+- (void)configNetWorkServiceType:(SGNetworkServiceType) networkServiceType {
+    
+}
+
 #pragma mark - 外界交互
 - (void)downloadWithURL:(NSURL *)url complete:(void(^)(NSDictionary *respose,NSError *error))complete{
     [self downloadWithURL:url begin:nil progress:nil complete:complete];
@@ -66,7 +76,7 @@ static SGDownloadManager *_instance;
         return;
     }
 
-    [self startDownLoadWithUrl:url];
+    [self.downloader startDownLoadWithUrl:url];
 }
 
 
