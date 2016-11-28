@@ -9,73 +9,72 @@
 #import "SGCacheManager.h"
 #import "NSString+SGHashString.h"
 
-static SGCacheManager *_instance;
+static NSMutableDictionary *_downloadList;
 
-NSString const * filePath = @"filePath";
-NSString const * fileSize = @"fileSize";
-NSString const * fileName = @"fileName";
-NSString const * fileUrl  = @"fileUrl";
-NSString const * isFinished = @"isFinished";
 
-NSString  * SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
+NSString const * filePath   =  @"filePath";
+NSString const * fileSize   =  @"fileSize";
+NSString const * fileName   =  @"fileName";
+NSString const * fileUrl    =  @"fileUrl";
+NSString const * isFinished =  @"isFinished";
+NSString const * totalSize  =  @"totalSize";
 
-#define SGUserDefaults [NSUserDefaults standardUserDefaults]
+
+
+#define SGDownloadInfoPath [KFullDirector stringByAppendingString:@"downloadInfo.plist"]
+
+#define SGDownloadList [self getDownloadList]
 
 @interface SGCacheManager ()
++ (NSMutableDictionary *)getDownloadList;
 @end
+
 
 
 @implementation SGCacheManager
 
-+(instancetype)allocWithZone:(struct _NSZone *)zone {
+//+ (void)initialize {
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReciveDownloadCompleteNoti:) name:SGDownloadCompleteNoti object:nil];
+//}
+
+
++ (NSMutableDictionary *)getDownloadList {
     
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _instance = [[super allocWithZone:zone] init];
-        
-    });
-    return _instance;
-}
-+ (instancetype)shareManager {
-    return [self alloc];
-}
-
-- (instancetype)init {
-    if (self = [super init]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReciveDownloadCompleteNoti:) name:SGDownloadCompleteNoti object:nil];
+    if (!_downloadList) { // 内存没有
+        _downloadList = [[NSArray arrayWithContentsOfFile:SGDownloadInfoPath] mutableCopy]; // 本地加载
+        _downloadList = _downloadList ? : [NSMutableDictionary dictionary];                 // 本地没有，分配内存
     }
-    return self;
+    return _downloadList;
 }
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 
 #pragma mark - save
-- (void)didReciveDownloadCompleteNoti:(NSNotification *)noti {
-    // 缓存记录
-    NSMutableDictionary *dictM = [noti.userInfo mutableCopy];
-    
-    // 从磁盘获取到下载了
-    if ([noti.object integerValue] == 2 && ([self fileInfoWithUrl:dictM[fileUrl]])) {
-        return;
-    }
-    
-    // 缓存记录
-    [dictM setObject:@(YES) forKey:isFinished];
-    NSString *key = [dictM[fileUrl] sg_md5HashString];
-    
-    [SGUserDefaults setObject:dictM forKey:key];
-    [SGUserDefaults synchronize];
-}
+//+ (void)didReciveDownloadCompleteNoti:(NSNotification *)noti {
+//
+//    // 缓存记录
+//    NSMutableDictionary *dictM = [noti.userInfo mutableCopy];
+//    
+//    // 从磁盘获取到下载了
+//    if ([noti.object integerValue] == 2 && ([self queryFileInfoWithUrl:dictM[fileUrl]])) {
+//        return;
+//    }
+//    
+//    // 缓存记录
+//    [dictM setObject:@(YES) forKey:isFinished];
+//    NSString *key = [dictM[fileUrl] sg_md5HashString];
+//    
+//    [SGDownloadList setObject:dictM forKey:key];
+//    
+//    [SGDownloadList writeToFile:SGDownloadInfoPath atomically:YES];
+//    
+//}
 
 #pragma mark - query
-- (NSDictionary *)fileInfoWithUrl:(NSString *)url {
-    
++ (NSDictionary *)queryFileInfoWithUrl:(NSString *)url {
     // 本地查找
     NSString *key = [url sg_md5HashString];
-    NSMutableDictionary *dictM = [[SGUserDefaults objectForKey:key] mutableCopy];
+    //NSMutableDictionary *dictM = [[SGUserDefaults objectForKey:key] mutableCopy];
+    
+    NSMutableDictionary *dictM  = [[SGDownloadList objectForKey:key] mutableCopy];
     
     if (dictM) {
         NSString *path = [KFullDirector stringByAppendingString:dictM[fileName]];
@@ -83,7 +82,68 @@ NSString  * SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     }
     
     return dictM;
+    
 }
+
++ (NSInteger)totalSizeWith:(NSString *)url {
+    //NSNumber *size = [self queryFileInfoWithUrl:url][totalSize];
+    
+    return [[self queryFileInfoWithUrl:url][totalSize] integerValue];
+}
+
+/** 记录要下载的文件大小 */
++ (BOOL)saveTotalSizeWithSize:(NSInteger)size forURL:(NSString *)url {
+    
+    return YES;
+}
+
+/**  增加配置信息 */
++ (BOOL)saveFileInfoWithDict:(NSDictionary *)dict {
+    
+    NSString *key = [dict[fileUrl] sg_md5HashString];
+    
+    [SGDownloadList setObject:dict forKey:key];
+    
+    return [SGDownloadList writeToFile:SGDownloadInfoPath atomically:YES];
+    
+}
+
+/**  删除配置信息 */
++ (BOOL)deleteFileInfoWithUrl:(NSString *)url {
+    NSString *key = [url sg_md5HashString];
+    NSDictionary *dict = SGDownloadList[key];
+    
+    BOOL flag = [[NSFileManager defaultManager] removeItemAtPath:dict[filePath] error:nil];
+    
+    [SGDownloadList removeObjectForKey:key];
+    
+    return (flag && [SGDownloadList writeToFile:SGDownloadInfoPath atomically:YES]);
+}
+
+
+
+#pragma mark - 
++ (BOOL)clearDisks {
+    // 1.删除所有的文件下载信息关联表
+    // 2.删除cache 下的download文件夹
+   return  [[NSFileManager defaultManager] removeItemAtPath:KFullDirector error:nil];
+      
+}
+
+/**  取消所有当前下载的文件 清理内存缓存的数据 */
++ (BOOL)clearMemory {
+    // 删除信息关联
+    _downloadList = nil;
+    
+    return YES;
+}
+
+/**  取消所有当前下载的文件 删除磁盘所有的下载 清理内存缓存的数据 */
++ (BOOL)clearMemoryAndDisk {
+    return ([self clearMemory] && [self clearDisks]);
+}
+
+
 
 
 @end

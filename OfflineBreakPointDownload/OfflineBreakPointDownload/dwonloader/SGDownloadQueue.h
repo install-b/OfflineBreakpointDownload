@@ -23,10 +23,13 @@ typedef  enum : NSUInteger {
 - (instancetype)initWithSession:(NSURLSession *)sesseion;
 
 // 添加下载任务
-- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet;
+- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complet;
 
 // 对当前任务进行操作
 - (void)operateDownloadWithUrl:(NSString *)url handle:(DownloadHandleType)handle;
+
+// 取消所有任务
+- (void)cancelAllTasks;
 
 // 供downloader 处理下载调用
 - (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response;

@@ -22,7 +22,7 @@
 @implementation SGDownloader
 
 // 添加任务
-- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet {
+- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complet {
     
     // 交给列队管理
     [self.queue downloadWithURL:url begin:begin progress:progress complete:complet];
@@ -44,7 +44,12 @@
     [self.queue operateDownloadWithUrl:url handle:DownloadHandleTypeCancel];
 }
 
-
+- (void)cancelAllDownloads {
+    [_queue cancelAllTasks];
+    _queue = nil;
+    _session = nil;
+    
+}
 
 #pragma mark - <NSURLSessionDataDelegate>
 // 接受到响应调用
@@ -52,7 +57,10 @@
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     
+    // 将响应交给列队处理
     [self.queue dataTask:dataTask didReceiveResponse:response];
+    
+    // 允许下载
     completionHandler(NSURLSessionResponseAllow);
 }
 
@@ -79,15 +87,7 @@ didCompleteWithError:(nullable NSError *)error {
         config.timeoutIntervalForRequest = -1;
         config.networkServiceType = NSURLNetworkServiceTypeVideo;
         
-        /*
-         NSURLNetworkServiceTypeDefault = 0,	// Standard internet traffic
-         NSURLNetworkServiceTypeVoIP = 1,	// Voice over IP control traffic
-         NSURLNetworkServiceTypeVideo = 2,	// Video traffic
-         NSURLNetworkServiceTypeBackground = 3, // Background traffic
-         NSURLNetworkServiceTypeVoice = 4,	   // Voice data
-
-         */
-         _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+        _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     }
     
     return _session;

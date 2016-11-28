@@ -9,12 +9,15 @@
 #import <Foundation/Foundation.h>
 
 @interface SGDownloader : NSObject
+// 接口回调
+- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complet;
 
-- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet;
 
 - (void)startDownLoadWithUrl:(NSString *)url;
 
 - (void)supendDownloadWithUrl:(NSString *)url;
 
 - (void)cancelDownloadWithUrl:(NSString *)url;
+
+- (void)cancelAllDownloads;
 @end

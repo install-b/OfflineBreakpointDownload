@@ -44,18 +44,18 @@ static SGDownloadManager *_instance;
 }
 
 #pragma mark - 外界交互
-- (void)downloadWithURL:(NSURL *)url complete:(void(^)(NSDictionary *respose,NSError *error))complete{
+- (void)downloadWithURL:(NSURL *)url complete:(void(^)(NSDictionary *,NSError *))complete{
     [self downloadWithURL:url begin:nil progress:nil complete:complete];
 }
 
-- (void)downloadWithURL:(NSURL *)url progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complete {
+- (void)downloadWithURL:(NSURL *)url progress:(void(^)(NSInteger,NSInteger ))progress complete:(void(^)(NSDictionary *,NSError *))complete {
     [self downloadWithURL:url begin:nil progress:progress complete:complete];
 }
 
-- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complete {
+- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complete {
     
     // 本地查找
-    NSDictionary *fileInfo = [[SGCacheManager shareManager] fileInfoWithUrl:url.absoluteString];
+    NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url.absoluteString];
    
     if (fileInfo) {
         !complete ? : complete(fileInfo,nil);
@@ -70,7 +70,7 @@ static SGDownloadManager *_instance;
 
 - (void)startDownLoadWithUrl:(NSString *)url {
     // 本地查找
-    NSDictionary *fileInfo = [[SGCacheManager shareManager] fileInfoWithUrl:url];
+    NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url];
     
     if (fileInfo) {
         return;
@@ -86,6 +86,12 @@ static SGDownloadManager *_instance;
 
 - (void)cancelDownloadWithUrl:(NSString *)url {
     [self.downloader cancelDownloadWithUrl:url];
+}
+
+- (void)stopAllDownloads {
+    
+    [_downloader cancelAllDownloads];
+    _downloader = nil;
 }
 
 #pragma mark - 本地查询
