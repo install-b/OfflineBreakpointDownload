@@ -54,6 +54,15 @@
 }
 
 #pragma mark - <NSURLSessionDataDelegate>
+
+// ssl 服务 证书信任
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge   completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler{
+
+    
+    completionHandler(NSURLSessionAuthChallengeUseCredential,challenge.proposedCredential);
+
+}
+
 // 接受到响应调用
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
 didReceiveResponse:(NSURLResponse *)response

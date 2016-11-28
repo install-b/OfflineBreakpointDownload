@@ -42,22 +42,27 @@
     SGDownloadManager *manager = [SGDownloadManager shareManager];
     
     if (sender.selected) {
-        [manager downloadWithURL:url progress:^(NSInteger completeSize, NSInteger expectSize) {
+        
+        [manager downloadWithURL:url
+         
+                        progress:^(NSInteger completeSize, NSInteger expectSize) {
             
-            NSLog(@"任务：%zd -- %.2f%%",index,100.0 * completeSize / expectSize);
+                                NSLog(@"任务：%zd -- %.2f%%",index,100.0 * completeSize / expectSize);
             
-        } complete:^(NSDictionary *respose, NSError *error) {
+                        }
+         
+                        complete:^(NSDictionary *respose, NSError *error) {
             
-            [sender setTitle:@"完成" forState:UIControlStateDisabled];
-            sender.selected = NO;
+                                [sender setTitle:@"完成" forState:UIControlStateDisabled];
+                                sender.selected = NO;
             
             
-            if(error) {
-                NSLog(@"任务：%zd 下载错误%@",index,error);
-                return ;
-            }
-            NSLog(@"任务：%zd 下载完成%@",index,respose);
-            sender.enabled = NO;
+                                if(error) {
+                                    NSLog(@"任务：%zd 下载错误%@",index,error);
+                                    return ;
+                                }
+                            NSLog(@"任务：%zd 下载完成%@",index,respose);
+                            sender.enabled = NO;
             
         }];
     }else {

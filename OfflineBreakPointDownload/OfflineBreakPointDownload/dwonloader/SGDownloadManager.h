@@ -10,7 +10,7 @@
 /*
  *  网络服务类型：
  *  提供一个提示让操作系统知道底层的流量是用于什么。
- *  该提示可以增强系统优先考虑交通的能力,确定需要多快醒来的蜂窝数据或无线wi - fi等等。
+ *  该提示可以增强系统优先考虑网络状况,确定需要多快醒来的蜂窝数据或无线wi-fi等等。
  *  通过提供准确的提示,系统可以提高系统的优化能力平衡电池寿命,性能,和其他方面的考虑。
  */
 typedef enum : NSUInteger {
@@ -69,7 +69,7 @@ typedef enum : NSUInteger {
 /** 配置网络服务类型 */
 - (void)configNetWorkServiceType:(SGNetworkServiceType) networkServiceType;
 
-/** 配置 */
+/** 配置最大下载量 */
 - (void)configMaxDownloadTaskNumber:(NSInteger)maxTaskNumer;
 
 @end

@@ -43,6 +43,12 @@ static SGDownloadManager *_instance;
     
 }
 
+/** 配置最大下载量 */
+- (void)configMaxDownloadTaskNumber:(NSInteger)maxTaskNumer {
+    
+}
+
+
 #pragma mark - 外界交互
 - (void)downloadWithURL:(NSURL *)url complete:(void(^)(NSDictionary *,NSError *))complete{
     [self downloadWithURL:url begin:nil progress:nil complete:complete];
@@ -57,6 +63,7 @@ static SGDownloadManager *_instance;
     // 本地查找
     NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url.absoluteString];
    
+    // 本地存在直接返回
     if ([fileInfo[isFinished] integerValue]) {
         !complete ? : complete(fileInfo,nil);
         return;
@@ -67,7 +74,7 @@ static SGDownloadManager *_instance;
 
 }
 
-
+#pragma mark - 
 - (void)startDownLoadWithUrl:(NSString *)url {
     // 本地查找
     NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url];
@@ -81,17 +88,17 @@ static SGDownloadManager *_instance;
 
 
 - (void)supendDownloadWithUrl:(NSString *)url {
-    [self.downloader supendDownloadWithUrl:url];
+    [_downloader supendDownloadWithUrl:url];
 }
 
 - (void)cancelDownloadWithUrl:(NSString *)url {
-    [self.downloader cancelDownloadWithUrl:url];
+    [_downloader cancelDownloadWithUrl:url];
 }
 
 
 /** 暂停当前所有的下载任务 下载任务不会从列队中删除 */
 - (void)suspendAllDownloadTask {
-
+    
 }
 
 /** 开启当前列队中所有被暂停的下载任务 */

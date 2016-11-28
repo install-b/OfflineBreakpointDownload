@@ -98,7 +98,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     // 回调
     !self.didComplete ? : self.didComplete(dict,nil);
     
-//    // 通知
+    // 通知
     [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:self userInfo:dict];
     
     if (code == 2) {
