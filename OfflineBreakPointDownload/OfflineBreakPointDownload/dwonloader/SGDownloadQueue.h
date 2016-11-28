@@ -16,8 +16,6 @@ typedef  enum : NSUInteger {
 } DownloadHandleType;
 
 
-
-
 @interface SGDownloadQueue : NSObject
 // 构造方法
 - (instancetype)initWithSession:(NSURLSession *)sesseion;
@@ -27,6 +25,9 @@ typedef  enum : NSUInteger {
 
 // 对当前任务进行操作
 - (void)operateDownloadWithUrl:(NSString *)url handle:(DownloadHandleType)handle;
+
+// 取消所有任务
+- (void)cancelAllTasks;
 
 // 供downloader 处理下载调用
 - (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response;

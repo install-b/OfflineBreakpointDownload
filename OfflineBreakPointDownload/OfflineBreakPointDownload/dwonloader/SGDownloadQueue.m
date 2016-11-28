@@ -11,9 +11,9 @@
 
 
 @interface SGDownloadQueue ()
-
-@property (nonatomic,strong) NSMutableSet <SGDownloadOperation *>*operations;
-
+// 列队管理集合
+@property (nonatomic,strong) NSMutableSet <SGDownloadOperation *> *operations;
+// 由downloader赋值 用于创建task任务 共享session
 @property (nonatomic,strong) NSURLSession *session;
 
 @end
@@ -37,23 +37,29 @@
 }
 
 - (void)didResiveDownloadFileCompete:(NSNotification *)noti {
-    NSDictionary *dict = noti.userInfo;
+//    NSDictionary *dict = noti.userInfo;
+//    
+//    SGDownloadOperation *operation = [self operationWithUrl:dict[fileUrl]];
     
-    SGDownloadOperation *operation = [self operationWithUrl:dict[fileUrl]];
+    SGDownloadOperation *operation = noti.object;
     
     !operation ? : [self.operations removeObject:operation];
 }
 
 #pragma mark - handle Out operations
-- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet {
+- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complet {
     // 获取operation对象
     SGDownloadOperation *operation = [self operationWithUrl:url.absoluteString];
     
-//    
     if (!operation) {
         operation = [[SGDownloadOperation alloc] initWith:url.absoluteString session:self.session];
         
         if (!(operation.dataTask)) {
+            // 没有下载任务代表已下载完成
+            NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url.absoluteString];
+            if (fileInfo && complet) {
+                complet(fileInfo,nil);
+            }
             return;
         }
         
@@ -75,6 +81,17 @@
     if (!operation) {
         return;
     } else if (!operation.dataTask) {
+        if (!operation.didComplete || !(handle == DownloadHandleTypeStart)) {
+            [self.operations removeObject:operation];
+            return;
+        }
+
+        NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url];
+        
+        if (fileInfo) {
+            operation.didComplete(fileInfo,nil);
+        }
+        
         [self.operations removeObject:operation];
         return;
     }
@@ -88,34 +105,22 @@
             [operation.dataTask suspend]; // 暂停
             break;
         case DownloadHandleTypeCancel:
-            [self.operations removeObject:operation]; // 删除任务
             [operation.dataTask cancel];  // 取消
+            [self.operations removeObject:operation]; // 删除任务
             break;
     }
 }
 
+- (void)cancelAllTasks {
+    // 取消所有的任务
+    [_operations enumerateObjectsUsingBlock:^(SGDownloadOperation * _Nonnull obj, BOOL * _Nonnull stop) {
+        [obj.dataTask cancel];
+    }];
+    // 清理内存
+    _operations = nil;
+}
+
 #pragma mark - query operation
-//- (NSURLSessionDataTask *)dataTaskWithUrl:(NSString *)url {
-//    
-//    __block NSURLSessionDataTask *task = nil;
-//    
-//    
-//    [self.operations enumerateObjectsUsingBlock:^(SGDownloadOperation * _Nonnull obj, BOOL * _Nonnull stop) {
-//        if ([obj.url isEqualToString:url]) {
-//            task = obj.dataTask;
-//            
-//            *stop = YES;
-//        }
-//    }];
-//    
-//    if (!task) {
-//        SGDownloadOperation *opt = [[SGDownloadOperation alloc] initWith:url session:self.session];
-//        [self.operations addObject:opt];
-//        task = opt.dataTask;
-//    }
-//    
-//    return task;
-//}
 - (SGDownloadOperation *)operationWithUrl:(NSString *)url{
     __block SGDownloadOperation *operation = nil;
     

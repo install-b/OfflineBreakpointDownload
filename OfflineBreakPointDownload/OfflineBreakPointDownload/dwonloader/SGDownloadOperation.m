@@ -9,6 +9,8 @@
 #import "SGDownloadOperation.h"
 #import "NSString+SGHashString.h"
 
+NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
+
 @interface SGDownloadOperation ()
 
 /** 文件句柄 可以记录文件的下载的位置 */
@@ -55,15 +57,14 @@
     // 回调给外界
     !self.didReceiveResponse ? : self.didReceiveResponse(self.fullPath);
     
-    
     // 创建文件句柄
     self.handle = [NSFileHandle fileHandleForWritingAtPath:self.fullPath];
+    
     // 文件句柄移动到文件末尾 位置 // 返回值是 unsign long long
     [self.handle seekToEndOfFile];
     
-    // 偏好设置记录文件总大小
-    [[NSUserDefaults standardUserDefaults] setInteger:self.totalSize forKey:self.fileName];
-    
+    // 开始下载记录文件下载信息
+    [SGCacheManager saveFileInfoWithDict:[self downLoadInfoWithFinished:NO]];
 }
 
 - (void)sg_didReceivData:(NSData *)data {
@@ -82,11 +83,9 @@
     [self.handle closeFile];
     self.handle = nil;
     
-    // 完成下载 通知代理 block
+    // 完成下载 通知 block
     if (error) {
-        !self.didComplete ? : self.didComplete(nil,error);
-        // 发通知
-        [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:@(0) userInfo:@{@"error":error}];
+        [self completFailueWithError:error];
     } else {
         [self completCusesseWithCode:1];
     }
@@ -94,18 +93,43 @@
 
 /** 成功回调 1代表下载后成功回调 2代表直接从磁盘中获取了 */
 - (void)completCusesseWithCode:(NSInteger)code {
-    
-    NSDictionary *dict = @{
-                           fileUrl  : self.url,
-                           fileName : self.fileName,
-                           filePath : self.fullPath,
-                           fileSize : @(self.currentSize)
-                           };
-    
+    // 获取下载信息
+    NSDictionary *dict = [self downLoadInfoWithFinished:YES];
+    // 回调
     !self.didComplete ? : self.didComplete(dict,nil);
     
-    // 通知
-    [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:@(code) userInfo:dict];
+//    // 通知
+    [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:self userInfo:dict];
+    
+    if (code == 2) {
+        return;
+    }
+    // 存储
+    [SGCacheManager saveFileInfoWithDict:dict];
+}
+
+/** 失败回调 */
+- (void)completFailueWithError:(NSError *)error {
+    // 回调
+    !self.didComplete ? : self.didComplete(nil,error);
+    // 发通知
+    [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:self userInfo:@{@"error":error}];
+    // 存储
+    [SGCacheManager saveFileInfoWithDict:[self downLoadInfoWithFinished:NO]];
+    
+}
+
+
+- (NSDictionary *)downLoadInfoWithFinished:(BOOL)finished {
+    return  @{
+                fileUrl    : self.url,
+                fileName   : self.fileName,
+                filePath   : self.fullPath,
+                fileSize   : @(self.currentSize),
+                totalSize  : @(self.totalSize),
+                isFinished : @(finished)
+            };
+
 }
 
 
@@ -159,7 +183,7 @@
     self.currentSize = [fileInfo[NSFileSize] integerValue];
     
     // 偏好设置里面存储总数据
-    self.totalSize = [[NSUserDefaults standardUserDefaults] integerForKey:self.fileName];
+    self.totalSize = [SGCacheManager totalSizeWith:self.url];
 }
 
 

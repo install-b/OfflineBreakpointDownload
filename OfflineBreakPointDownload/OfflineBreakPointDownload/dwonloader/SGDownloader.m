@@ -24,7 +24,7 @@
 @implementation SGDownloader
 
 // 添加任务
-- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet {
+- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complet {
     
     // 交给列队管理
     [self.queue downloadWithURL:url begin:begin progress:progress complete:complet];
@@ -46,7 +46,12 @@
     [self.queue operateDownloadWithUrl:url handle:DownloadHandleTypeCancel];
 }
 
-
+- (void)cancelAllDownloads {
+    [_queue cancelAllTasks];
+    _queue = nil;
+    _session = nil;
+    
+}
 
 #pragma mark - <NSURLSessionDataDelegate>
 // 接受到响应调用
@@ -54,7 +59,10 @@
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     
+    // 将响应交给列队处理
     [self.queue dataTask:dataTask didReceiveResponse:response];
+    
+    // 允许下载
     completionHandler(NSURLSessionResponseAllow);
 }
 
@@ -75,7 +83,15 @@ didCompleteWithError:(nullable NSError *)error {
 - (NSURLSession *)session {
     
     if (!_session) {
-       _session = [NSURLSession sessionWithConfiguration:self.sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+
+        
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        // 设置请求超时
+        config.timeoutIntervalForRequest = -1;
+        config.networkServiceType = NSURLNetworkServiceTypeVideo;
+        
+        _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+
     }
     
     return _session;

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "SGCacheManager.h"
 
+SG_EXTERN NSString * const SGDownloadCompleteNoti;
+
 @interface SGDownloadOperation : NSObject
 
 - (instancetype)initWith:(NSString *)url session:(NSURLSession *)session;
