@@ -17,6 +17,8 @@
 /** 下载列队管理 专门负责接收到数据时分配给不同operation */
 @property (nonatomic,strong) SGDownloadQueue *queue;
 
+/** 下载配置 */
+@property (nonatomic,strong) NSURLSessionConfiguration *sessionConfig;
 @end
 
 @implementation SGDownloader
@@ -73,24 +75,19 @@ didCompleteWithError:(nullable NSError *)error {
 - (NSURLSession *)session {
     
     if (!_session) {
-        
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        // 设置请求超时
-        config.timeoutIntervalForRequest = -1;
-        config.networkServiceType = NSURLNetworkServiceTypeVideo;
-        
-        /*
-         NSURLNetworkServiceTypeDefault = 0,	// Standard internet traffic
-         NSURLNetworkServiceTypeVoIP = 1,	// Voice over IP control traffic
-         NSURLNetworkServiceTypeVideo = 2,	// Video traffic
-         NSURLNetworkServiceTypeBackground = 3, // Background traffic
-         NSURLNetworkServiceTypeVoice = 4,	   // Voice data
-
-         */
-         _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+       _session = [NSURLSession sessionWithConfiguration:self.sessionConfig delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     }
     
     return _session;
+}
+
+
+- (NSURLSessionConfiguration *)sessionConfig {
+    if (!_sessionConfig) {
+        _sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+        _sessionConfig.timeoutIntervalForRequest = -1;
+    }
+    return _sessionConfig;
 }
 
 - (SGDownloadQueue *)queue {

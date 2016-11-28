@@ -15,6 +15,7 @@
 
 @interface NSString (SGHashString)
 
+/** 获取MD5加密哈希散列值字符串 */
 - (NSString *)sg_md5HashString;
 
 @end

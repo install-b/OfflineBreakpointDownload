@@ -78,6 +78,20 @@ static SGDownloadManager *_instance;
     [self.downloader cancelDownloadWithUrl:url];
 }
 
+#pragma mark - 
+/** 配置任务等待时间 默认超时为-1 */
+- (void)configRequestTimeOut:(NSTimeInterval)requestTimeOut {
+
+    
+}
+/** 配置网络服务类型 */
+- (void)configNetWorkServiceType:(SGNetworkServiceType) networkServiceType {
+
+
+}
+
+
+
 #pragma mark - 本地查询
 
 - (void)cheakOutFileWithUrl:(NSURL *)url {
