@@ -12,9 +12,16 @@
 
 static SGDownloadManager *_instance;
 
+//static dispatch_semaphore_t _semaphore;
+
 @interface SGDownloadManager ()
+{
+    dispatch_semaphore_t _semaphore;
+}
 
 @property(nonatomic,strong) SGDownloader *downloader;
+
+@property(nonatomic,assign) NSInteger maxDownloadNumber;
 
 @end
 
@@ -59,6 +66,7 @@ static SGDownloadManager *_instance;
 
 - (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complete {
     
+    dispatch_semaphore_wait([self getSemaphore], DISPATCH_TIME_FOREVER);
     // 开启异步 操作
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         // 本地查找
@@ -67,6 +75,8 @@ static SGDownloadManager *_instance;
         // 本地存在直接返回
         if ([fileInfo[isFinished] integerValue]) {
             !complete ? : complete(fileInfo,nil);
+            
+            dispatch_semaphore_signal(_semaphore);
             return;
         }
         
@@ -80,9 +90,11 @@ static SGDownloadManager *_instance;
 #pragma mark - 
 - (void)startDownLoadWithUrl:(NSString *)url {
     // 本地查找
+    dispatch_semaphore_wait([self getSemaphore], DISPATCH_TIME_FOREVER);
     NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url];
     
     if (fileInfo) {
+        dispatch_semaphore_signal(_semaphore);
         return;
     }
 
@@ -91,6 +103,7 @@ static SGDownloadManager *_instance;
 
 
 - (void)supendDownloadWithUrl:(NSString *)url {
+    
     [_downloader supendDownloadWithUrl:url];
 }
 
@@ -131,6 +144,23 @@ static SGDownloadManager *_instance;
         _downloader = [[SGDownloader alloc] init];
     }
     return _downloader;
+}
+
+- (dispatch_semaphore_t)getSemaphore {
+    
+    if (!_semaphore) {
+        _semaphore = dispatch_semaphore_create(self.maxDownloadNumber);
+    }
+    
+    return _semaphore;
+}
+
+- (NSInteger)maxDownloadNumber {
+    if (!_maxDownloadNumber) {
+        _maxDownloadNumber = 3; // 默认为3个任务
+    }
+    
+    return _maxDownloadNumber;
 }
 
 @end

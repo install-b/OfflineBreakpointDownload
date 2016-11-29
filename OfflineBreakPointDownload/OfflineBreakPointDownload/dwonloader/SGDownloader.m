@@ -52,9 +52,8 @@
         // 取消所有session的任务 // 耗时操作
         [_session invalidateAndCancel]; // 会调用 URLSession:task:didCompleteWithError: 方法抛出error取消
         
-        NSLog(@"cancelAllDownloads---------dispatch_async(dispatch_get_global_queue");
     });
-    NSLog(@"------cancelAllDownloads-------");
+    
 }
 
 #pragma mark - <NSURLSessionDataDelegate>
