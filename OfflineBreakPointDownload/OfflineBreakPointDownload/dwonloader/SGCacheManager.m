@@ -11,6 +11,8 @@
 
 static NSMutableDictionary *_downloadList;
 
+static dispatch_semaphore_t _semaphore;
+
 
 NSString const * filePath   =  @"filePath";
 NSString const * fileSize   =  @"fileSize";
@@ -27,15 +29,17 @@ NSString const * totalSize  =  @"totalSize";
 
 @interface SGCacheManager ()
 + (NSMutableDictionary *)getDownloadList;
+
 @end
 
 
 
 @implementation SGCacheManager
 
-//+ (void)initialize {
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReciveDownloadCompleteNoti:) name:SGDownloadCompleteNoti object:nil];
-//}
++ (void)initialize {
+    _semaphore = dispatch_semaphore_create(1);
+    
+}
 
 
 + (NSMutableDictionary *)getDownloadList {
@@ -102,28 +106,35 @@ NSString const * totalSize  =  @"totalSize";
 /**  增加配置信息 */
 + (BOOL)saveFileInfoWithDict:(NSDictionary *)dict {
     
+    // 线程等待 (信号量 + 1)
+    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     
     NSString *key = [dict[fileUrl] sg_md5HashString];
-    
-   
     NSMutableDictionary *dictM =  SGDownloadList;
-    
     [dictM setObject:dict forKey:key];
+    BOOL flag = [dictM writeToFile:SGDownloadInfoPath atomically:YES];
     
-    return [dictM writeToFile:SGDownloadInfoPath atomically:YES];
+    // 线程结束 （信号量 - 1）
+    dispatch_semaphore_signal(_semaphore);
+    
+    return flag;
     
 }
 
 /**  删除配置信息 */
 + (BOOL)deleteFileInfoWithUrl:(NSString *)url {
+    // 线程等待 分配信号量 (信号量 + 1)
+    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
+    
     NSString *key = [url sg_md5HashString];
     NSDictionary *dict = SGDownloadList[key];
-    
     BOOL flag = [[NSFileManager defaultManager] removeItemAtPath:dict[filePath] error:nil];
-    
     [SGDownloadList removeObjectForKey:key];
+    BOOL writeFlag = [SGDownloadList writeToFile:SGDownloadInfoPath atomically:YES];
     
-    return (flag && [SGDownloadList writeToFile:SGDownloadInfoPath atomically:YES]);
+    // 线程结束 释放信号量（信号量 - 1）
+    dispatch_semaphore_signal(_semaphore);
+    return (flag && writeFlag);
 }
 
 

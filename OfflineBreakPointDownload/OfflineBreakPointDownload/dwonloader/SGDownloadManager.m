@@ -48,7 +48,6 @@ static SGDownloadManager *_instance;
     
 }
 
-
 #pragma mark - 外界交互
 - (void)downloadWithURL:(NSURL *)url complete:(void(^)(NSDictionary *,NSError *))complete{
     [self downloadWithURL:url begin:nil progress:nil complete:complete];
@@ -60,18 +59,22 @@ static SGDownloadManager *_instance;
 
 - (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complete {
     
-    // 本地查找
-    NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url.absoluteString];
-   
-    // 本地存在直接返回
-    if ([fileInfo[isFinished] integerValue]) {
-        !complete ? : complete(fileInfo,nil);
-        return;
-    }
+    // 开启异步 操作
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        // 本地查找
+        NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url.absoluteString];
+        
+        // 本地存在直接返回
+        if ([fileInfo[isFinished] integerValue]) {
+            !complete ? : complete(fileInfo,nil);
+            return;
+        }
+        
+        // 交给downloader下载
+        [self.downloader downloadWithURL:url begin:begin progress:progress complete:complete];
+        
+    });
     
-    // 交给downloader下载
-    [self.downloader downloadWithURL:url begin:begin progress:progress complete:complete];
-
 }
 
 #pragma mark - 

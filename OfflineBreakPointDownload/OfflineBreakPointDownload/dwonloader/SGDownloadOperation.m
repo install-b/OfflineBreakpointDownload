@@ -55,7 +55,14 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     }
     
     // 回调给外界
-    !self.didReceiveResponse ? : self.didReceiveResponse(self.fullPath);
+    //!self.didReceiveResponse ? : self.didReceiveResponse(self.fullPath);
+    if (self.didReceiveResponse) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.didReceiveResponse(self.fullPath);
+        });
+        
+    }
+    
     
     // 创建文件句柄
     self.handle = [NSFileHandle fileHandleForWritingAtPath:self.fullPath];
@@ -72,7 +79,13 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     self.currentSize += data.length;
     
     // 下载状态 通知代理
-    !self.didReceivData ? : self.didReceivData(self.currentSize,self.totalSize);
+    //!self.didReceivData ? : self.didReceivData(self.currentSize,self.totalSize);
+    if (self.didReceivData) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.didReceivData(self.currentSize,self.totalSize);
+        });
+    }
+    
     
     // 写入文件
     [self.handle writeData:data];
@@ -96,7 +109,14 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     // 获取下载信息
     NSDictionary *dict = [self downLoadInfoWithFinished:YES];
     // 回调
-    !self.didComplete ? : self.didComplete(dict,nil);
+    //!self.didComplete ? : self.didComplete(dict,nil);
+    
+    // 回到主线程 回调
+    if (self.didComplete) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.didComplete(dict,nil);
+        });
+    }
     
     // 通知
     [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:self userInfo:dict];
@@ -111,7 +131,13 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
 /** 失败回调 */
 - (void)completFailueWithError:(NSError *)error {
     // 回调
-    !self.didComplete ? : self.didComplete(nil,error);
+    // !self.didComplete ? : self.didComplete(nil,error);
+    if (self.didComplete) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.didComplete(nil,error);
+        });
+    }
+    
     // 发通知
     [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:self userInfo:@{@"error":error}];
     // 存储

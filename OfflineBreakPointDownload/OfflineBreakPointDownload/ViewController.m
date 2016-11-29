@@ -31,15 +31,20 @@
     sender.selected = !sender.selected;
     
     NSInteger index = sender.tag - 11;
-    
+    SGDownloadManager *manager = [SGDownloadManager shareManager];
     // 越界 校验
     if (index >= self.dataList.count || index < 0) {
+        
+        if(sender.tag == 0) {
+            [manager stopAllDownloads];
+        }
+        
         return;
     }
     
     NSURL *url = [NSURL URLWithString:self.dataList[index]];
     
-    SGDownloadManager *manager = [SGDownloadManager shareManager];
+    
     
     if (sender.selected) {
         
@@ -74,9 +79,9 @@
 - (NSArray *)dataList {
     if (!_dataList) {
         _dataList = @[
-                      @"http://120.25.226.186:32812/resources/videos/minion_03.mp4",
-                      @"http://120.25.226.186:32812/resources/videos/minion_02.mp4",
-                      @"http://file02.16sucai.com/d/file/2014/0617/be2f5973a60156df0c6aeb2aace791c6.jpg"
+                      @"http://120.25.226.186:32812/resources/videos/minion_01.mp4",
+                      @"http://120.25.226.186:32812/resources/videos/minion_07.mp4",
+                      @"http://120.25.226.186:32812/resources/videos/minion_08.mp4",
                       ];
     }
     

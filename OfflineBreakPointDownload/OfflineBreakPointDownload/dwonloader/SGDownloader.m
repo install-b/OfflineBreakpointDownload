@@ -47,10 +47,14 @@
 }
 
 - (void)cancelAllDownloads {
-    [_queue cancelAllTasks];
-    _queue = nil;
-    _session = nil;
     
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        // 取消所有session的任务 // 耗时操作
+        [_session invalidateAndCancel]; // 会调用 URLSession:task:didCompleteWithError: 方法抛出error取消
+        
+        NSLog(@"cancelAllDownloads---------dispatch_async(dispatch_get_global_queue");
+    });
+    NSLog(@"------cancelAllDownloads-------");
 }
 
 #pragma mark - <NSURLSessionDataDelegate>
@@ -75,7 +79,7 @@ didReceiveResponse:(NSURLResponse *)response
     completionHandler(NSURLSessionResponseAllow);
 }
 
-// 接受到数的时候调用，调用多次
+// 接受到数据碎片 的时候调用，调用多次
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data {
     [self.queue dataTask:dataTask didReceiveData:data];
@@ -98,8 +102,10 @@ didCompleteWithError:(nullable NSError *)error {
         // 设置请求超时
         config.timeoutIntervalForRequest = -1;
         config.networkServiceType = NSURLNetworkServiceTypeVideo;
+        config.timeoutIntervalForResource = -1;
+        config.TLSMaximumSupportedProtocol = kSSLProtocolAll;
         
-        _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+        _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue currentQueue]];
 
     }
     
