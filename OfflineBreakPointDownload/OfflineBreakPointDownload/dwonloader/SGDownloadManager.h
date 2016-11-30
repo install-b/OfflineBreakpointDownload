@@ -28,8 +28,6 @@ typedef enum : NSUInteger {
 /** 实例化对象（单例） */
 + (instancetype)shareManager;
 
-/** 获取信号量（设置最大下载数，当取消一个任务即发生回调后需要释放（增加）一个信号量，当开启一个下载需要获取（减少）一个信号量） */
-- (dispatch_semaphore_t)getSemaphore;
 
 #pragma mark - 添加下载任务同时开启任务下载
 /** 开启下载任务 监听完成下载 */

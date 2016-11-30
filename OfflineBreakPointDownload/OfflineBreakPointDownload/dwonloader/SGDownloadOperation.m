@@ -9,6 +9,7 @@
 #import "SGDownloadOperation.h"
 #import "NSString+SGHashString.h"
 
+
 NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
 
 @interface SGDownloadOperation ()
@@ -115,6 +116,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     if (self.didComplete) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.didComplete(dict,nil);
+            //dispatch_semaphore_signal([[SGDownloadManager shareManager] getSemaphore]);
         });
     }
     

@@ -9,19 +9,18 @@
 #import "SGDownloadManager.h"
 #import "SGDownloader.h"
 #import "SGCacheManager.h"
+#import "SGDownloadManager+Semaphore.h"
 
 static SGDownloadManager *_instance;
 
-//static dispatch_semaphore_t _semaphore;
+static SGDownloader *_downloader;
 
 @interface SGDownloadManager ()
-{
-    dispatch_semaphore_t _semaphore;
-}
+//{
+//    dispatch_semaphore_t _semaphore;
+//}
 
 @property(nonatomic,strong) SGDownloader *downloader;
-
-@property(nonatomic,assign) NSInteger maxDownloadNumber;
 
 @end
 
@@ -52,7 +51,7 @@ static SGDownloadManager *_instance;
 
 /** 配置最大下载量 */
 - (void)configMaxDownloadTaskNumber:(NSInteger)maxTaskNumer {
-    
+    self.maxDownloadNumber = maxTaskNumer;
 }
 
 #pragma mark - 外界交互
@@ -76,7 +75,7 @@ static SGDownloadManager *_instance;
         if ([fileInfo[isFinished] integerValue]) {
             !complete ? : complete(fileInfo,nil);
             
-            dispatch_semaphore_signal(_semaphore);
+            dispatch_semaphore_signal([self getSemaphore]);
             return;
         }
         
@@ -94,7 +93,7 @@ static SGDownloadManager *_instance;
     NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url];
     
     if (fileInfo) {
-        dispatch_semaphore_signal(_semaphore);
+        dispatch_semaphore_signal([self getSemaphore]);
         return;
     }
 
@@ -146,21 +145,6 @@ static SGDownloadManager *_instance;
     return _downloader;
 }
 
-- (dispatch_semaphore_t)getSemaphore {
-    
-    if (!_semaphore) {
-        _semaphore = dispatch_semaphore_create(self.maxDownloadNumber);
-    }
-    
-    return _semaphore;
-}
 
-- (NSInteger)maxDownloadNumber {
-    if (!_maxDownloadNumber) {
-        _maxDownloadNumber = 3; // 默认为3个任务
-    }
-    
-    return _maxDownloadNumber;
-}
 
 @end

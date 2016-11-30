@@ -8,7 +8,7 @@
 
 #import "SGDownloadQueue.h"
 #import "SGDownloadOperation.h"
-
+#import "SGDownloadManager+Semaphore.h"
 
 @interface SGDownloadQueue ()
 // 列队管理集合
@@ -37,13 +37,15 @@
 }
 
 - (void)didResiveDownloadFileCompete:(NSNotification *)noti {
-//    NSDictionary *dict = noti.userInfo;
-//    
-//    SGDownloadOperation *operation = [self operationWithUrl:dict[fileUrl]];
-    
+
     SGDownloadOperation *operation = noti.object;
     
-    !operation ? : [self.operations removeObject:operation];
+    if (operation) {
+        [self.operations removeObject:operation];
+        dispatch_semaphore_signal([[SGDownloadManager shareManager] getSemaphore]);
+    }
+  
+    
 }
 
 #pragma mark - handle Out operations
