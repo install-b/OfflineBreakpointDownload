@@ -19,7 +19,6 @@
 		A75D1E8A1DE9763F0008BAF6 /* SGDownloadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E891DE9763F0008BAF6 /* SGDownloadQueue.m */; };
 		A75D1E8D1DE98E8A0008BAF6 /* SGCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E8C1DE98E8A0008BAF6 /* SGCacheManager.m */; };
 		A75D1E901DE9EFB60008BAF6 /* NSString+SGHashString.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E8F1DE9EFB60008BAF6 /* NSString+SGHashString.m */; };
-		A785A8D81DEF21850062FF9A /* SGDownloadManager+Semaphore.m in Sources */ = {isa = PBXBuildFile; fileRef = A785A8D71DEF21850062FF9A /* SGDownloadManager+Semaphore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,8 +44,6 @@
 		A75D1E8C1DE98E8A0008BAF6 /* SGCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGCacheManager.m; sourceTree = "<group>"; };
 		A75D1E8E1DE9EFB60008BAF6 /* NSString+SGHashString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SGHashString.h"; sourceTree = "<group>"; };
 		A75D1E8F1DE9EFB60008BAF6 /* NSString+SGHashString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SGHashString.m"; sourceTree = "<group>"; };
-		A785A8D61DEF21850062FF9A /* SGDownloadManager+Semaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SGDownloadManager+Semaphore.h"; sourceTree = "<group>"; };
-		A785A8D71DEF21850062FF9A /* SGDownloadManager+Semaphore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SGDownloadManager+Semaphore.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +103,6 @@
 			children = (
 				A75D1E7F1DE9532B0008BAF6 /* SGDownloadManager.h */,
 				A75D1E801DE9532B0008BAF6 /* SGDownloadManager.m */,
-				A785A8D61DEF21850062FF9A /* SGDownloadManager+Semaphore.h */,
-				A785A8D71DEF21850062FF9A /* SGDownloadManager+Semaphore.m */,
 				A75D1E8B1DE98E8A0008BAF6 /* SGCacheManager.h */,
 				A75D1E8C1DE98E8A0008BAF6 /* SGCacheManager.m */,
 				A75D1E821DE953470008BAF6 /* SGDownloader.h */,
@@ -202,7 +197,6 @@
 				A75D1E8D1DE98E8A0008BAF6 /* SGCacheManager.m in Sources */,
 				A75D1E8A1DE9763F0008BAF6 /* SGDownloadQueue.m in Sources */,
 				A75D1E811DE9532B0008BAF6 /* SGDownloadManager.m in Sources */,
-				A785A8D81DEF21850062FF9A /* SGDownloadManager+Semaphore.m in Sources */,
 				A75D1E871DE953610008BAF6 /* SGDownloadOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -20,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[SGDownloadManager shareManager] configMaxDownloadTaskNumber:1];
+    
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
@@ -67,6 +67,7 @@
                                     return ;
                                 }
                             NSLog(@"任务：%zd 下载完成%@",index,respose);
+                            
                             sender.enabled = NO;
             
         }];

@@ -9,16 +9,13 @@
 #import "SGDownloadManager.h"
 #import "SGDownloader.h"
 #import "SGCacheManager.h"
-#import "SGDownloadManager+Semaphore.h"
+
 
 static SGDownloadManager *_instance;
 
 static SGDownloader *_downloader;
 
 @interface SGDownloadManager ()
-//{
-//    dispatch_semaphore_t _semaphore;
-//}
 
 @property(nonatomic,strong) SGDownloader *downloader;
 
@@ -51,7 +48,7 @@ static SGDownloader *_downloader;
 
 /** 配置最大下载量 */
 - (void)configMaxDownloadTaskNumber:(NSInteger)maxTaskNumer {
-    self.maxDownloadNumber = maxTaskNumer;
+    //self.maxDownloadNumber = maxTaskNumer;
 }
 
 #pragma mark - 外界交互
@@ -65,7 +62,7 @@ static SGDownloader *_downloader;
 
 - (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complete {
     
-    dispatch_semaphore_wait([self getSemaphore], DISPATCH_TIME_FOREVER);
+    //dispatch_semaphore_wait([self getSemaphore], DISPATCH_TIME_FOREVER);
     // 开启异步 操作
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         // 本地查找
@@ -75,7 +72,7 @@ static SGDownloader *_downloader;
         if ([fileInfo[isFinished] integerValue]) {
             !complete ? : complete(fileInfo,nil);
             
-            dispatch_semaphore_signal([self getSemaphore]);
+            //dispatch_semaphore_signal([self getSemaphore]);
             return;
         }
         
@@ -89,11 +86,11 @@ static SGDownloader *_downloader;
 #pragma mark - 
 - (void)startDownLoadWithUrl:(NSString *)url {
     // 本地查找
-    dispatch_semaphore_wait([self getSemaphore], DISPATCH_TIME_FOREVER);
+    //dispatch_semaphore_wait([self getSemaphore], DISPATCH_TIME_FOREVER);
     NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url];
     
     if (fileInfo) {
-        dispatch_semaphore_signal([self getSemaphore]);
+       // dispatch_semaphore_signal([self getSemaphore]);
         return;
     }
 

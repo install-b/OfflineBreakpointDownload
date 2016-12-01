@@ -8,7 +8,7 @@
 
 #import "SGDownloadQueue.h"
 #import "SGDownloadOperation.h"
-#import "SGDownloadManager+Semaphore.h"
+
 
 @interface SGDownloadQueue ()
 // 列队管理集合
@@ -42,7 +42,7 @@
     
     if (operation) {
         [self.operations removeObject:operation];
-        dispatch_semaphore_signal([[SGDownloadManager shareManager] getSemaphore]);
+        //dispatch_semaphore_signal([[SGDownloadManager shareManager] getSemaphore]);
     }
   
     

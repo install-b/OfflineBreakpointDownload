@@ -63,15 +63,15 @@ typedef enum : NSUInteger {
 /** 获取当前所有的下载任务 */
 - (NSArray *)currentDownloadTasks;
 
-#pragma mark - 配置操作（下载之前配置）
-/** 配置任务等待时间 默认超时为-1 */
-- (void)configRequestTimeOut:(NSTimeInterval)requestTimeOut;
-
-/** 配置网络服务类型 */
-- (void)configNetWorkServiceType:(SGNetworkServiceType) networkServiceType;
-
-/** 配置最大下载量默认为3 设置为0也是默认为3 */
-- (void)configMaxDownloadTaskNumber:(NSInteger)maxTaskNumer;
+#pragma mark - 配置操作（下载之前配置） <暂未开通>
+///** 配置任务等待时间 默认超时为-1 */
+//- (void)configRequestTimeOut:(NSTimeInterval)requestTimeOut;
+//
+///** 配置网络服务类型 */
+//- (void)configNetWorkServiceType:(SGNetworkServiceType) networkServiceType;
+//
+///** 配置最大下载量默认为3 设置为0也是默认为3 */
+//- (void)configMaxDownloadTaskNumber:(NSInteger)maxTaskNumer;
 
 @end
 
