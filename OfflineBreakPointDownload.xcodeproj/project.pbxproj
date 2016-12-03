@@ -13,12 +13,12 @@
 		A75D1E721DE94FEF0008BAF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75D1E701DE94FEF0008BAF6 /* Main.storyboard */; };
 		A75D1E741DE94FEF0008BAF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A75D1E731DE94FEF0008BAF6 /* Assets.xcassets */; };
 		A75D1E771DE94FEF0008BAF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75D1E751DE94FEF0008BAF6 /* LaunchScreen.storyboard */; };
-		A75D1E811DE9532B0008BAF6 /* SGDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E801DE9532B0008BAF6 /* SGDownloadManager.m */; };
-		A75D1E841DE953470008BAF6 /* SGDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E831DE953470008BAF6 /* SGDownloader.m */; };
-		A75D1E871DE953610008BAF6 /* SGDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E861DE953610008BAF6 /* SGDownloadOperation.m */; };
-		A75D1E8A1DE9763F0008BAF6 /* SGDownloadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E891DE9763F0008BAF6 /* SGDownloadQueue.m */; };
-		A75D1E8D1DE98E8A0008BAF6 /* SGCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E8C1DE98E8A0008BAF6 /* SGCacheManager.m */; };
-		A75D1E901DE9EFB60008BAF6 /* NSString+SGHashString.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E8F1DE9EFB60008BAF6 /* NSString+SGHashString.m */; };
+		A78225FA1DF297F400506BA3 /* NSString+SGHashString.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225EF1DF297F400506BA3 /* NSString+SGHashString.m */; };
+		A78225FB1DF297F400506BA3 /* SGCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F11DF297F400506BA3 /* SGCacheManager.m */; };
+		A78225FC1DF297F400506BA3 /* SGDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F31DF297F400506BA3 /* SGDownloader.m */; };
+		A78225FD1DF297F400506BA3 /* SGDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F51DF297F400506BA3 /* SGDownloadManager.m */; };
+		A78225FE1DF297F400506BA3 /* SGDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F71DF297F400506BA3 /* SGDownloadOperation.m */; };
+		A78225FF1DF297F400506BA3 /* SGDownloadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F91DF297F400506BA3 /* SGDownloadQueue.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,18 +32,18 @@
 		A75D1E731DE94FEF0008BAF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A75D1E761DE94FEF0008BAF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A75D1E781DE94FEF0008BAF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A75D1E7F1DE9532B0008BAF6 /* SGDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloadManager.h; sourceTree = "<group>"; };
-		A75D1E801DE9532B0008BAF6 /* SGDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadManager.m; sourceTree = "<group>"; };
-		A75D1E821DE953470008BAF6 /* SGDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloader.h; sourceTree = "<group>"; };
-		A75D1E831DE953470008BAF6 /* SGDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloader.m; sourceTree = "<group>"; };
-		A75D1E851DE953610008BAF6 /* SGDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloadOperation.h; sourceTree = "<group>"; };
-		A75D1E861DE953610008BAF6 /* SGDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadOperation.m; sourceTree = "<group>"; };
-		A75D1E881DE9763F0008BAF6 /* SGDownloadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloadQueue.h; sourceTree = "<group>"; };
-		A75D1E891DE9763F0008BAF6 /* SGDownloadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadQueue.m; sourceTree = "<group>"; };
-		A75D1E8B1DE98E8A0008BAF6 /* SGCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGCacheManager.h; sourceTree = "<group>"; };
-		A75D1E8C1DE98E8A0008BAF6 /* SGCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGCacheManager.m; sourceTree = "<group>"; };
-		A75D1E8E1DE9EFB60008BAF6 /* NSString+SGHashString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SGHashString.h"; sourceTree = "<group>"; };
-		A75D1E8F1DE9EFB60008BAF6 /* NSString+SGHashString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SGHashString.m"; sourceTree = "<group>"; };
+		A78225EE1DF297F400506BA3 /* NSString+SGHashString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SGHashString.h"; sourceTree = "<group>"; };
+		A78225EF1DF297F400506BA3 /* NSString+SGHashString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SGHashString.m"; sourceTree = "<group>"; };
+		A78225F01DF297F400506BA3 /* SGCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGCacheManager.h; sourceTree = "<group>"; };
+		A78225F11DF297F400506BA3 /* SGCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGCacheManager.m; sourceTree = "<group>"; };
+		A78225F21DF297F400506BA3 /* SGDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloader.h; sourceTree = "<group>"; };
+		A78225F31DF297F400506BA3 /* SGDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloader.m; sourceTree = "<group>"; };
+		A78225F41DF297F400506BA3 /* SGDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloadManager.h; sourceTree = "<group>"; };
+		A78225F51DF297F400506BA3 /* SGDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadManager.m; sourceTree = "<group>"; };
+		A78225F61DF297F400506BA3 /* SGDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloadOperation.h; sourceTree = "<group>"; };
+		A78225F71DF297F400506BA3 /* SGDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadOperation.m; sourceTree = "<group>"; };
+		A78225F81DF297F400506BA3 /* SGDownloadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloadQueue.h; sourceTree = "<group>"; };
+		A78225F91DF297F400506BA3 /* SGDownloadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadQueue.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +76,7 @@
 		A75D1E661DE94FEE0008BAF6 /* OfflineBreakPointDownload */ = {
 			isa = PBXGroup;
 			children = (
-				A75D1E7E1DE9508F0008BAF6 /* dwonloader */,
+				A78225ED1DF297F400506BA3 /* SGDwonload */,
 				A75D1E6A1DE94FEE0008BAF6 /* AppDelegate.h */,
 				A75D1E6B1DE94FEE0008BAF6 /* AppDelegate.m */,
 				A75D1E6D1DE94FEE0008BAF6 /* ViewController.h */,
@@ -98,23 +98,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		A75D1E7E1DE9508F0008BAF6 /* dwonloader */ = {
+		A78225ED1DF297F400506BA3 /* SGDwonload */ = {
 			isa = PBXGroup;
 			children = (
-				A75D1E7F1DE9532B0008BAF6 /* SGDownloadManager.h */,
-				A75D1E801DE9532B0008BAF6 /* SGDownloadManager.m */,
-				A75D1E8B1DE98E8A0008BAF6 /* SGCacheManager.h */,
-				A75D1E8C1DE98E8A0008BAF6 /* SGCacheManager.m */,
-				A75D1E821DE953470008BAF6 /* SGDownloader.h */,
-				A75D1E831DE953470008BAF6 /* SGDownloader.m */,
-				A75D1E881DE9763F0008BAF6 /* SGDownloadQueue.h */,
-				A75D1E891DE9763F0008BAF6 /* SGDownloadQueue.m */,
-				A75D1E851DE953610008BAF6 /* SGDownloadOperation.h */,
-				A75D1E861DE953610008BAF6 /* SGDownloadOperation.m */,
-				A75D1E8E1DE9EFB60008BAF6 /* NSString+SGHashString.h */,
-				A75D1E8F1DE9EFB60008BAF6 /* NSString+SGHashString.m */,
+				A78225EE1DF297F400506BA3 /* NSString+SGHashString.h */,
+				A78225EF1DF297F400506BA3 /* NSString+SGHashString.m */,
+				A78225F01DF297F400506BA3 /* SGCacheManager.h */,
+				A78225F11DF297F400506BA3 /* SGCacheManager.m */,
+				A78225F21DF297F400506BA3 /* SGDownloader.h */,
+				A78225F31DF297F400506BA3 /* SGDownloader.m */,
+				A78225F41DF297F400506BA3 /* SGDownloadManager.h */,
+				A78225F51DF297F400506BA3 /* SGDownloadManager.m */,
+				A78225F61DF297F400506BA3 /* SGDownloadOperation.h */,
+				A78225F71DF297F400506BA3 /* SGDownloadOperation.m */,
+				A78225F81DF297F400506BA3 /* SGDownloadQueue.h */,
+				A78225F91DF297F400506BA3 /* SGDownloadQueue.m */,
 			);
-			path = dwonloader;
+			path = SGDwonload;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,15 +189,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A75D1E901DE9EFB60008BAF6 /* NSString+SGHashString.m in Sources */,
+				A78225FC1DF297F400506BA3 /* SGDownloader.m in Sources */,
+				A78225FD1DF297F400506BA3 /* SGDownloadManager.m in Sources */,
+				A78225FB1DF297F400506BA3 /* SGCacheManager.m in Sources */,
+				A78225FE1DF297F400506BA3 /* SGDownloadOperation.m in Sources */,
+				A78225FF1DF297F400506BA3 /* SGDownloadQueue.m in Sources */,
 				A75D1E6F1DE94FEE0008BAF6 /* ViewController.m in Sources */,
-				A75D1E841DE953470008BAF6 /* SGDownloader.m in Sources */,
 				A75D1E6C1DE94FEE0008BAF6 /* AppDelegate.m in Sources */,
+				A78225FA1DF297F400506BA3 /* NSString+SGHashString.m in Sources */,
 				A75D1E691DE94FEE0008BAF6 /* main.m in Sources */,
-				A75D1E8D1DE98E8A0008BAF6 /* SGCacheManager.m in Sources */,
-				A75D1E8A1DE9763F0008BAF6 /* SGDownloadQueue.m in Sources */,
-				A75D1E811DE9532B0008BAF6 /* SGDownloadManager.m in Sources */,
-				A75D1E871DE953610008BAF6 /* SGDownloadOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
