@@ -133,7 +133,6 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
 /** 失败回调 */
 - (void)completFailueWithError:(NSError *)error {
     // 回调
-    // !self.didComplete ? : self.didComplete(nil,error);
     if (self.didComplete) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.didComplete(nil,error);

@@ -1,4 +1,4 @@
-#
+A#
 #  Be sure to run `pod spec lint SGDownload.podspec' to ensure this is a
 #  valid spec and to remove all comments including this before submitting the spec.
 #
@@ -80,7 +80,7 @@ SGDownload is used to download Through which you can download it for big files A
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/install-b/OfflineBreakpointDownload.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/install-b/OfflineBreakpointDownload.git", :tag => "0.0.2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -91,7 +91,7 @@ SGDownload is used to download Through which you can download it for big files A
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "SGDownload/", "SGDownload/*.{h,m}"
+  s.source_files  = "SGDwonload/*.{h,m}"
   # s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"

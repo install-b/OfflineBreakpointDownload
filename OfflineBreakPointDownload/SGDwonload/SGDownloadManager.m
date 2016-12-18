@@ -142,6 +142,4 @@ static SGDownloader *_downloader;
     return _downloader;
 }
 
-
-
 @end

@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "SGDownloadManager.h"
 #import "SGCacheManager.h"
+#import "ZSGPictureTool.h"
+#import "UIImage+ViewImage.h"
 
 @interface ViewController ()
 
@@ -23,6 +25,17 @@
     
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    // 截屏
+    UIImage *image = [UIImage imageForView:self.view];
+    [ZSGPictureTool sg_saveAImage:image withFolferName:@"image" error:^(NSError *error) {
+        if (error) {
+            NSLog(@"保存失败");
+        }else {
+            NSLog(@"保存成功");
+        }
+    }];
+    
+    
     
 }
 
@@ -43,39 +56,52 @@
     }
     
     NSURL *url = [NSURL URLWithString:self.dataList[index]];
-    
-    
-    
+
     if (sender.selected) {
+        [self downlaodWithUrl:url withBtn:sender];
         
-        [manager downloadWithURL:url
-         
-                        progress:^(NSInteger completeSize, NSInteger expectSize) {
-            
-                                NSLog(@"任务：%zd -- %.2f%%",index,100.0 * completeSize / expectSize);
-            
-                        }
-         
-                        complete:^(NSDictionary *respose, NSError *error) {
-            
-                                [sender setTitle:@"完成" forState:UIControlStateDisabled];
-                                sender.selected = NO;
-            
-            
-                                if(error) {
-                                    NSLog(@"任务：%zd 下载错误%@",index,error);
-                                    return ;
-                                }
-                            NSLog(@"任务：%zd 下载完成%@",index,respose);
-                            
-                            sender.enabled = NO;
-            
-        }];
     }else {
         [manager supendDownloadWithUrl:url.absoluteString];
     }
 }
 
+- (void)downlaodWithUrl:(NSURL *)url withBtn:(UIButton *)sender{
+   
+    [[SGDownloadManager shareManager] downloadWithURL:url
+     
+                    progress:^(NSInteger completeSize, NSInteger expectSize) {
+                        
+                        NSLog(@"任务：%zd -- %.2f%%",index,100.0 * completeSize / expectSize);
+                        
+                    }
+     
+                    complete:^(NSDictionary *respose, NSError *error) {
+                        
+                        [sender setTitle:@"完成" forState:UIControlStateDisabled];
+                        sender.selected = NO;
+                        
+                        if(error) {
+                            NSLog(@"任务：%zd 下载错误%@",index,error);
+                            return ;
+                        }
+                        NSLog(@"任务：%zd 下载完成%@",index,respose);
+                        // 保存到相册
+                        NSURL *url1 = [NSURL fileURLWithPath:respose[filePath]];
+                        [ZSGPictureTool sg_saveVideo:url1 withFolferName:@"test" error:^(NSError *error) {
+                            if (error) {
+                                NSLog(@"保存失败");
+                            }else {
+                            
+                                NSLog(@"保存成功");
+                            }
+                            
+                            
+                        }];
+                        sender.enabled = NO;
+        }];
+
+
+}
 
 - (NSArray *)dataList {
     if (!_dataList) {
@@ -85,8 +111,6 @@
                       @"http://120.25.226.186:32812/resources/videos/minion_08.mp4",
                       ];
     }
-    
     return _dataList;
 }
-
 @end
