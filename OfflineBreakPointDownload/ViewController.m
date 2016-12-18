@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "SGDownloadManager.h"
 #import "SGCacheManager.h"
-#import "ZSGPictureTool.h"
+#import "SGPictureTool.h"
 #import "UIImage+ViewImage.h"
 
 @interface ViewController ()
@@ -27,7 +27,7 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     // 截屏
     UIImage *image = [UIImage imageForView:self.view];
-    [ZSGPictureTool sg_saveAImage:image withFolferName:@"image" error:^(NSError *error) {
+    [SGPictureTool sg_saveAImage:image withFolferName:@"image" error:^(NSError *error) {
         if (error) {
             NSLog(@"保存失败");
         }else {
@@ -87,7 +87,7 @@
                         NSLog(@"任务：%zd 下载完成%@",index,respose);
                         // 保存到相册
                         NSURL *url1 = [NSURL fileURLWithPath:respose[filePath]];
-                        [ZSGPictureTool sg_saveVideo:url1 withFolferName:@"test" error:^(NSError *error) {
+                        [SGPictureTool sg_saveVideo:url1 withFolferName:@"test" error:^(NSError *error) {
                             if (error) {
                                 NSLog(@"保存失败");
                             }else {
@@ -99,8 +99,6 @@
                         }];
                         sender.enabled = NO;
         }];
-
-
 }
 
 - (NSArray *)dataList {

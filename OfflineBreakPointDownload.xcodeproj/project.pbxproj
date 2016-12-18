@@ -20,7 +20,7 @@
 		A78225FE1DF297F400506BA3 /* SGDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F71DF297F400506BA3 /* SGDownloadOperation.m */; };
 		A78225FF1DF297F400506BA3 /* SGDownloadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F91DF297F400506BA3 /* SGDownloadQueue.m */; };
 		A7BB1C5B1E06A25A00663C19 /* UIImage+ViewImage.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BB1C5A1E06A25A00663C19 /* UIImage+ViewImage.m */; };
-		A7CBD4FD1E0618CF00760A6F /* ZSGPictureTool.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CBD4FC1E0618CF00760A6F /* ZSGPictureTool.m */; };
+		A7BB1C5E1E06AF5000663C19 /* SGPictureTool.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BB1C5D1E06AF5000663C19 /* SGPictureTool.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,8 +48,8 @@
 		A78225F91DF297F400506BA3 /* SGDownloadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadQueue.m; sourceTree = "<group>"; };
 		A7BB1C591E06A25A00663C19 /* UIImage+ViewImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ViewImage.h"; sourceTree = "<group>"; };
 		A7BB1C5A1E06A25A00663C19 /* UIImage+ViewImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ViewImage.m"; sourceTree = "<group>"; };
-		A7CBD4FB1E0618CF00760A6F /* ZSGPictureTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSGPictureTool.h; sourceTree = "<group>"; };
-		A7CBD4FC1E0618CF00760A6F /* ZSGPictureTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSGPictureTool.m; sourceTree = "<group>"; };
+		A7BB1C5C1E06AF5000663C19 /* SGPictureTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGPictureTool.h; sourceTree = "<group>"; };
+		A7BB1C5D1E06AF5000663C19 /* SGPictureTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGPictureTool.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,8 +89,8 @@
 				A75D1E6B1DE94FEE0008BAF6 /* AppDelegate.m */,
 				A75D1E6D1DE94FEE0008BAF6 /* ViewController.h */,
 				A75D1E6E1DE94FEE0008BAF6 /* ViewController.m */,
-				A7CBD4FB1E0618CF00760A6F /* ZSGPictureTool.h */,
-				A7CBD4FC1E0618CF00760A6F /* ZSGPictureTool.m */,
+				A7BB1C5C1E06AF5000663C19 /* SGPictureTool.h */,
+				A7BB1C5D1E06AF5000663C19 /* SGPictureTool.m */,
 				A75D1E701DE94FEF0008BAF6 /* Main.storyboard */,
 				A75D1E731DE94FEF0008BAF6 /* Assets.xcassets */,
 				A75D1E751DE94FEF0008BAF6 /* LaunchScreen.storyboard */,
@@ -205,8 +205,8 @@
 				A78225FE1DF297F400506BA3 /* SGDownloadOperation.m in Sources */,
 				A78225FF1DF297F400506BA3 /* SGDownloadQueue.m in Sources */,
 				A75D1E6F1DE94FEE0008BAF6 /* ViewController.m in Sources */,
+				A7BB1C5E1E06AF5000663C19 /* SGPictureTool.m in Sources */,
 				A75D1E6C1DE94FEE0008BAF6 /* AppDelegate.m in Sources */,
-				A7CBD4FD1E0618CF00760A6F /* ZSGPictureTool.m in Sources */,
 				A78225FA1DF297F400506BA3 /* NSString+SGHashString.m in Sources */,
 				A7BB1C5B1E06A25A00663C19 /* UIImage+ViewImage.m in Sources */,
 				A75D1E691DE94FEE0008BAF6 /* main.m in Sources */,

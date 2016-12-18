@@ -1,22 +1,22 @@
 //
-//  ZSGPictureTool.m
-//  BaiSiProject
+//  SGPictureTool.m
+//  OfflineBreakPointDownload
 //
-//  Created by yangjie on 16/7/22.
-//  Copyright © 2016年 HNB. All rights reserved.
+//  Created by Shangen Zhang on 16/7/22.
+//  Copyright © 2016年 Shangen Zhang. All rights reserved.
 //
 
-#import "ZSGPictureTool.h"
+#import "SGPictureTool.h"
 #import <Photos/Photos.h>
 
-@implementation ZSGPictureTool
-#pragma mark - images
+@implementation SGPictureTool
+#pragma mark - 接口方法
 + (void)sg_saveAImage:(UIImage *)image withFolferName:(NSString *)folderName error:(void(^)(NSError *error))error {
     [self saveMedia:image withFolferName:folderName error:error];
 }
 
 + (void)sg_saveAImage:(UIImage *)image  error:(void(^)(NSError *error))error  {
-     [self saveMedia:image withFolferName:[NSBundle mainBundle].infoDictionary[(NSString *)kCFBundleIdentifierKey] error:error];
+    [self saveMedia:image withFolferName:[NSBundle mainBundle].infoDictionary[(NSString *)kCFBundleIdentifierKey] error:error];
 }
 
 + (void)sg_saveVideo:(NSURL *)fileURL withFolferName:(NSString *)folderName error:(void (^)(NSError *))error {
@@ -24,10 +24,10 @@
 }
 
 + (void)sg_saveVideo:(NSURL *)fileURL error:(void (^)(NSError *))error {
-  
+    
     [self saveMedia:fileURL withFolferName:[NSBundle mainBundle].infoDictionary[(NSString *)kCFBundleIdentifierKey] error:error];
 }
-
+#pragma mark -
 /** 保存图片或视频到相册 获取用户设置状态 */
 + (void)sg_saveMedia:(id)media withFolferName:(NSString *)folderName error:(void(^)(NSError *error))error {
     
@@ -59,6 +59,7 @@
     }];
     
 }
+#pragma mark -
 /** 用户允许访问相册 */
 + (void)saveMedia:(id)media withFolferName:(NSString *)folderName error:(void (^)(NSError *))errorBlock {
     // 将相机胶卷的相片移至新的相册
@@ -101,30 +102,7 @@
     error ? errorBlock(error) : errorBlock(nil);
 }
 
-/** 创建图片相册 */
-+ (PHAssetCollection *)createdCollectionFolderName:(NSString *)folderName {
-   
-    // 获取colection 数组
-    PHFetchResult<PHAssetCollection *> *colections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
-    
-    // 遍历 colection 数组
-    for (PHAssetCollection *colection in colections) {
-        if ([colection.localizedTitle isEqualToString:folderName]) {
-            return  colection;
-        }
-    }
-    __block NSString *createdCollectionID = nil;
-    
-    // 自定义相册名或根据bundle名创建 自定义相册
-    [[PHPhotoLibrary sharedPhotoLibrary] performChangesAndWait:^{
-        createdCollectionID  =  [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:folderName].placeholderForCreatedAssetCollection.localIdentifier;
-    } error:nil];
-    
-    if (createdCollectionID == nil) return nil;
-    
-    return [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[createdCollectionID] options:nil].firstObject;
-    
-}
+#pragma mark -
 /** 创建图片 */
 + ( PHFetchResult<PHAsset *> *)createdCollectionWithImage:(UIImage *)image{
     // 1、将图片保存至相机胶卷
@@ -156,4 +134,31 @@
     // 根据标示获取 刚刚保存到系统胶卷相册的视频
     return [PHAsset fetchAssetsWithLocalIdentifiers:@[creatAssetID] options:nil];
 }
+
+#pragma mark -
+/** 创建图片相册 */
++ (PHAssetCollection *)createdCollectionFolderName:(NSString *)folderName {
+    
+    // 获取colection 数组
+    PHFetchResult<PHAssetCollection *> *colections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    
+    // 遍历 colection 数组
+    for (PHAssetCollection *colection in colections) {
+        if ([colection.localizedTitle isEqualToString:folderName]) {
+            return  colection;
+        }
+    }
+    __block NSString *createdCollectionID = nil;
+    
+    // 自定义相册名或根据bundle名创建 自定义相册
+    [[PHPhotoLibrary sharedPhotoLibrary] performChangesAndWait:^{
+        createdCollectionID  =  [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:folderName].placeholderForCreatedAssetCollection.localIdentifier;
+    } error:nil];
+    
+    if (createdCollectionID == nil) return nil;
+    
+    return [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[createdCollectionID] options:nil].firstObject;
+    
+}
+
 @end

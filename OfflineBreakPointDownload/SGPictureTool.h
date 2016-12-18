@@ -1,14 +1,14 @@
 //
-//  ZSGPictureTool.h
-//  BaiSiProject
+//  SGPictureTool.h
+//  OfflineBreakPointDownload
 //
-//  Created by yangjie on 16/7/22.
-//  Copyright © 2016年 HNB. All rights reserved.
+//  Created by Shangen Zhang on 16/7/22.
+//  Copyright © 2016年 Shangen Zhang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ZSGPictureTool : NSObject
+@interface SGPictureTool : NSObject
 /**
  *  保存一张图片到相册 并创建一自定义名称的文件夹
  *
@@ -39,4 +39,5 @@
  *  @param fileURL 文件路径
  */
 + (void)sg_saveVideo:(NSURL *)fileURL error:(void (^)(NSError *error))errorBlock;
+
 @end
