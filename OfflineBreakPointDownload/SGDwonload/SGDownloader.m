@@ -95,8 +95,6 @@ didCompleteWithError:(nullable NSError *)error {
 - (NSURLSession *)session {
     
     if (!_session) {
-
-        
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
         // 设置请求超时
         config.timeoutIntervalForRequest = -1;

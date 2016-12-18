@@ -27,7 +27,7 @@
     
     [self saveMedia:fileURL withFolferName:[NSBundle mainBundle].infoDictionary[(NSString *)kCFBundleIdentifierKey] error:error];
 }
-#pragma mark -
+#pragma mark - 状态设置
 /** 保存图片或视频到相册 获取用户设置状态 */
 + (void)sg_saveMedia:(id)media withFolferName:(NSString *)folderName error:(void(^)(NSError *error))error {
     
@@ -59,7 +59,7 @@
     }];
     
 }
-#pragma mark -
+#pragma mark - 保存图片
 /** 用户允许访问相册 */
 + (void)saveMedia:(id)media withFolferName:(NSString *)folderName error:(void (^)(NSError *))errorBlock {
     // 将相机胶卷的相片移至新的相册
@@ -72,14 +72,17 @@
         createdAsset = [self createdCollectionWithVideo:media]; // 保存视频到相机胶卷
     }
     
+    NSError *err = [NSError errorWithDomain:NSOSStatusErrorDomain code:1 userInfo:@{@"error" : @"保存失败"}];
+    
     if (!folderName) { // 文件名称 不转移图片或视频
+        createdAsset ? errorBlock(nil) : errorBlock(err);
         return;
     }
     
     // 创建文件夹
     PHAssetCollection *createdCollection = [self createdCollectionFolderName:folderName];
     if (createdAsset == nil || createdCollection == nil) {
-        NSError *err = [NSError errorWithDomain:NSOSStatusErrorDomain code:1 userInfo:@{@"error" : @"保存失败"}];
+        //NSError *err = [NSError errorWithDomain:NSOSStatusErrorDomain code:1 userInfo:@{@"error" : @"保存失败"}];
         !errorBlock ? : errorBlock(err);
         return;
     }
@@ -102,7 +105,7 @@
     error ? errorBlock(error) : errorBlock(nil);
 }
 
-#pragma mark -
+#pragma mark - 
 /** 创建图片 */
 + ( PHFetchResult<PHAsset *> *)createdCollectionWithImage:(UIImage *)image{
     // 1、将图片保存至相机胶卷
@@ -160,5 +163,4 @@
     return [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[createdCollectionID] options:nil].firstObject;
     
 }
-
 @end
