@@ -3,9 +3,12 @@
 
 # how to import for your project
 
-  1、直接集成 下载zip包解压后， 直接将 “SGDwonload” 文件夹下所有文件拖到你的项目
+  1、直接集成 (directly integrating)
   
-  2、使用CocoaPods
+  下载zip包解压后， 直接将 “SGDwonload” 文件夹下所有文件拖到你的项目 (Download the zip package decompression, directly under the "SGDwonload" folder to drag all your files to your project)
+  
+  
+  2、使用CocoaPods  (use CocoaPods)
   
  To integrate SGDwonload into your Xcode project using CocoaPods, specify it in your Podfile:
 
@@ -24,9 +27,11 @@ Then, run the following command:
 
 #### 1、下载任务：
 
-导入头文件 SGDownloadManager.h
+导入头文件(import head file) : SGDownloadManager.h
     
 	  添加下载任务：
+	  add download task：
+	  
 	  SGDownloadManager *manager = [SGDownloadManager shareManager];
      [manager downloadWithURL:url
     
@@ -47,10 +52,13 @@ Then, run the following command:
         }];
         
         暂停任务：
-        [manager supendDownloadWithUrl:url.absoluteString]; // 暂停下载
+        suspend task :
+        
+        [manager supendDownloadWithUrl:url.absoluteString]; // 暂停下载 (suspend task)
         
         取消所有下载：
-        [manager stopAllDownloads]; // 取消所有下载
+        cancel add tasks :     
+        [manager stopAllDownloads]; // 取消所有下载 (cancel add tasks)
         
   // 成功回调respose的数据示例：
     		
@@ -69,16 +77,17 @@ Then, run the following command:
    
     totalSize = 4149462; // 文件总大小
     
-#### 2、本地磁盘查询内存清理：
-导入头文件 SGCacheManager.h
+#### 2、本地磁盘查询内存清理(Query local disk  and memory cleaner)：
 
-a、查询本地信息：
+导入头文件(import head file) : SGCacheManager.h
+
+a、查询本地信息(Query file information form local disk)：
 
 	查询文件下载信息 返回结果参考 上述 “成功回调respose的数据示例”
 	调用类方法
 	[SGCacheManager queryFileInfoWithUrl:url.absoluteString]
 
-b、清理内存
+b、清理内存 (clear Memory/disk):
 
 		/**  删除某个文件 */
 		+ (BOOL)deleteFileWithUrl:(NSString *)url;
