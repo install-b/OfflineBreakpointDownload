@@ -13,7 +13,7 @@
 	platform :ios, '8.0'
 	
 	target 'TargetName' do
-	pod 'AFNetworking', '~> 3.0'
+	pod 'SGDwonload', '~> 0.0.2'
 	end
 Then, run the following command:
 
@@ -21,6 +21,8 @@ Then, run the following command:
 
 
 # how to use
+
+#### 1、下载任务：
 
 导入头文件 SGDownloadManager.h
     
@@ -66,6 +68,30 @@ Then, run the following command:
     isFinished = 1; // 0代表未完成
    
     totalSize = 4149462; // 文件总大小
+    
+#### 2、本地磁盘查询内存清理：
+导入头文件 SGCacheManager.h
+
+a、查询本地信息：
+
+	查询文件下载信息 返回结果参考 上述 “成功回调respose的数据示例”
+	调用类方法
+	[SGCacheManager queryFileInfoWithUrl:url.absoluteString]
+
+b、清理内存
+
+		/**  删除某个文件 */
+		+ (BOOL)deleteFileWithUrl:(NSString *)url;
+
+		/**  清理所有下载文件及下载信息 */
+		+ (BOOL)clearDisks;
+		
+		/**  取消所有当前下载的文件 清理内存缓存的数据 */
+		+ (BOOL)clearMemory;
+		
+		/**  取消所有当前下载的文件 删除磁盘所有的下载 清理内存缓存的数据 */
+		+ (BOOL)clearMemoryAndDisk;
+
 
 # SOME TIPS
 
