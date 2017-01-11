@@ -26,7 +26,15 @@ xcuserdata/
 *.ipa
 *.dSYM.zip
 *.dSYM
-
+.DS_Store
+.DS_Store?
+*.swp
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
 # CocoaPods
 #
 # We recommend against adding the Pods directory to your .gitignore. However
