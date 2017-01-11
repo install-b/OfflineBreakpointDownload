@@ -12,20 +12,20 @@
 @implementation SGPictureTool
 #pragma mark - 接口方法
 + (void)sg_saveAImage:(UIImage *)image withFolferName:(NSString *)folderName error:(void(^)(NSError *error))error {
-    [self saveMedia:image withFolferName:folderName error:error];
+    [self sg_saveMedia:image withFolferName:folderName error:error];
 }
 
 + (void)sg_saveAImage:(UIImage *)image  error:(void(^)(NSError *error))error  {
-    [self saveMedia:image withFolferName:[NSBundle mainBundle].infoDictionary[(NSString *)kCFBundleIdentifierKey] error:error];
+    [self sg_saveMedia:image withFolferName:[NSBundle mainBundle].infoDictionary[(NSString *)kCFBundleIdentifierKey] error:error];
 }
 
 + (void)sg_saveVideo:(NSURL *)fileURL withFolferName:(NSString *)folderName error:(void (^)(NSError *))error {
-    [self saveMedia:fileURL withFolferName:folderName error:error];
+    [self sg_saveMedia:fileURL withFolferName:folderName error:error];
 }
 
 + (void)sg_saveVideo:(NSURL *)fileURL error:(void (^)(NSError *))error {
     
-    [self saveMedia:fileURL withFolferName:[NSBundle mainBundle].infoDictionary[(NSString *)kCFBundleIdentifierKey] error:error];
+    [self sg_saveMedia:fileURL withFolferName:[NSBundle mainBundle].infoDictionary[(NSString *)kCFBundleIdentifierKey] error:error];
 }
 #pragma mark - 状态设置
 /** 保存图片或视频到相册 获取用户设置状态 */
