@@ -30,9 +30,9 @@ SG_EXTERN NSString const * isFinished;
 /**  增加配置信息 */
 + (BOOL)saveFileInfoWithDict:(NSDictionary *)dict;
 
-/**  删除配置信息 */
-+ (BOOL)deleteFileInfoWithUrl:(NSString *)url;
 
+/**  删除某个文件 */
++ (BOOL)deleteFileWithUrl:(NSString *)url;
 
 /**  清理所有下载文件及下载信息 */
 + (BOOL)clearDisks;
