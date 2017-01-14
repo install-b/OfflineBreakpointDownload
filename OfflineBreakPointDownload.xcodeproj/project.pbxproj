@@ -13,6 +13,7 @@
 		A75D1E721DE94FEF0008BAF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75D1E701DE94FEF0008BAF6 /* Main.storyboard */; };
 		A75D1E741DE94FEF0008BAF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A75D1E731DE94FEF0008BAF6 /* Assets.xcassets */; };
 		A75D1E771DE94FEF0008BAF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75D1E751DE94FEF0008BAF6 /* LaunchScreen.storyboard */; };
+		A76B25141E29E1A800729257 /* Runloop.m in Sources */ = {isa = PBXBuildFile; fileRef = A76B25131E29E1A800729257 /* Runloop.m */; };
 		A78225FA1DF297F400506BA3 /* NSString+SGHashString.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225EF1DF297F400506BA3 /* NSString+SGHashString.m */; };
 		A78225FB1DF297F400506BA3 /* SGCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F11DF297F400506BA3 /* SGCacheManager.m */; };
 		A78225FC1DF297F400506BA3 /* SGDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F31DF297F400506BA3 /* SGDownloader.m */; };
@@ -34,6 +35,8 @@
 		A75D1E731DE94FEF0008BAF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A75D1E761DE94FEF0008BAF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A75D1E781DE94FEF0008BAF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A76B25121E29E1A800729257 /* Runloop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Runloop.h; sourceTree = "<group>"; };
+		A76B25131E29E1A800729257 /* Runloop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Runloop.m; sourceTree = "<group>"; };
 		A78225EE1DF297F400506BA3 /* NSString+SGHashString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SGHashString.h"; sourceTree = "<group>"; };
 		A78225EF1DF297F400506BA3 /* NSString+SGHashString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SGHashString.m"; sourceTree = "<group>"; };
 		A78225F01DF297F400506BA3 /* SGCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGCacheManager.h; sourceTree = "<group>"; };
@@ -91,6 +94,8 @@
 				A75D1E6E1DE94FEE0008BAF6 /* ViewController.m */,
 				A7BB1C5C1E06AF5000663C19 /* SGPictureTool.h */,
 				A7BB1C5D1E06AF5000663C19 /* SGPictureTool.m */,
+				A76B25121E29E1A800729257 /* Runloop.h */,
+				A76B25131E29E1A800729257 /* Runloop.m */,
 				A75D1E701DE94FEF0008BAF6 /* Main.storyboard */,
 				A75D1E731DE94FEF0008BAF6 /* Assets.xcassets */,
 				A75D1E751DE94FEF0008BAF6 /* LaunchScreen.storyboard */,
@@ -206,6 +211,7 @@
 				A78225FF1DF297F400506BA3 /* SGDownloadQueue.m in Sources */,
 				A75D1E6F1DE94FEE0008BAF6 /* ViewController.m in Sources */,
 				A7BB1C5E1E06AF5000663C19 /* SGPictureTool.m in Sources */,
+				A76B25141E29E1A800729257 /* Runloop.m in Sources */,
 				A75D1E6C1DE94FEE0008BAF6 /* AppDelegate.m in Sources */,
 				A78225FA1DF297F400506BA3 /* NSString+SGHashString.m in Sources */,
 				A7BB1C5B1E06A25A00663C19 /* UIImage+ViewImage.m in Sources */,
