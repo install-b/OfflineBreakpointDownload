@@ -7,36 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A70A45121F62A12600AAF37A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A70A45111F62A12600AAF37A /* ViewController.m */; };
+		A70A45151F62A17900AAF37A /* LYProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A70A45141F62A17900AAF37A /* LYProgressView.m */; };
+		A70A45181F62BFFD00AAF37A /* LYDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A70A45171F62BFFD00AAF37A /* LYDownloadManager.m */; };
 		A75D1E691DE94FEE0008BAF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E681DE94FEE0008BAF6 /* main.m */; };
 		A75D1E6C1DE94FEE0008BAF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E6B1DE94FEE0008BAF6 /* AppDelegate.m */; };
-		A75D1E6F1DE94FEE0008BAF6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D1E6E1DE94FEE0008BAF6 /* ViewController.m */; };
 		A75D1E721DE94FEF0008BAF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75D1E701DE94FEF0008BAF6 /* Main.storyboard */; };
 		A75D1E741DE94FEF0008BAF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A75D1E731DE94FEF0008BAF6 /* Assets.xcassets */; };
 		A75D1E771DE94FEF0008BAF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75D1E751DE94FEF0008BAF6 /* LaunchScreen.storyboard */; };
-		A76B25141E29E1A800729257 /* Runloop.m in Sources */ = {isa = PBXBuildFile; fileRef = A76B25131E29E1A800729257 /* Runloop.m */; };
 		A78225FA1DF297F400506BA3 /* NSString+SGHashString.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225EF1DF297F400506BA3 /* NSString+SGHashString.m */; };
 		A78225FB1DF297F400506BA3 /* SGCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F11DF297F400506BA3 /* SGCacheManager.m */; };
 		A78225FC1DF297F400506BA3 /* SGDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F31DF297F400506BA3 /* SGDownloader.m */; };
 		A78225FD1DF297F400506BA3 /* SGDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F51DF297F400506BA3 /* SGDownloadManager.m */; };
 		A78225FE1DF297F400506BA3 /* SGDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F71DF297F400506BA3 /* SGDownloadOperation.m */; };
 		A78225FF1DF297F400506BA3 /* SGDownloadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F91DF297F400506BA3 /* SGDownloadQueue.m */; };
-		A7BB1C5B1E06A25A00663C19 /* UIImage+ViewImage.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BB1C5A1E06A25A00663C19 /* UIImage+ViewImage.m */; };
-		A7BB1C5E1E06AF5000663C19 /* SGPictureTool.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BB1C5D1E06AF5000663C19 /* SGPictureTool.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A70A45101F62A12600AAF37A /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		A70A45111F62A12600AAF37A /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		A70A45131F62A17900AAF37A /* LYProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYProgressView.h; sourceTree = "<group>"; };
+		A70A45141F62A17900AAF37A /* LYProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYProgressView.m; sourceTree = "<group>"; };
+		A70A45161F62BFFD00AAF37A /* LYDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYDownloadManager.h; sourceTree = "<group>"; };
+		A70A45171F62BFFD00AAF37A /* LYDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYDownloadManager.m; sourceTree = "<group>"; };
 		A75D1E641DE94FEE0008BAF6 /* OfflineBreakPointDownload.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfflineBreakPointDownload.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A75D1E681DE94FEE0008BAF6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A75D1E6A1DE94FEE0008BAF6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A75D1E6B1DE94FEE0008BAF6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		A75D1E6D1DE94FEE0008BAF6 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		A75D1E6E1DE94FEE0008BAF6 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		A75D1E711DE94FEF0008BAF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A75D1E731DE94FEF0008BAF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A75D1E761DE94FEF0008BAF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A75D1E781DE94FEF0008BAF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A76B25121E29E1A800729257 /* Runloop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Runloop.h; sourceTree = "<group>"; };
-		A76B25131E29E1A800729257 /* Runloop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Runloop.m; sourceTree = "<group>"; };
 		A78225EE1DF297F400506BA3 /* NSString+SGHashString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SGHashString.h"; sourceTree = "<group>"; };
 		A78225EF1DF297F400506BA3 /* NSString+SGHashString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SGHashString.m"; sourceTree = "<group>"; };
 		A78225F01DF297F400506BA3 /* SGCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGCacheManager.h; sourceTree = "<group>"; };
@@ -49,10 +50,6 @@
 		A78225F71DF297F400506BA3 /* SGDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadOperation.m; sourceTree = "<group>"; };
 		A78225F81DF297F400506BA3 /* SGDownloadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloadQueue.h; sourceTree = "<group>"; };
 		A78225F91DF297F400506BA3 /* SGDownloadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadQueue.m; sourceTree = "<group>"; };
-		A7BB1C591E06A25A00663C19 /* UIImage+ViewImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ViewImage.h"; sourceTree = "<group>"; };
-		A7BB1C5A1E06A25A00663C19 /* UIImage+ViewImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ViewImage.m"; sourceTree = "<group>"; };
-		A7BB1C5C1E06AF5000663C19 /* SGPictureTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGPictureTool.h; sourceTree = "<group>"; };
-		A7BB1C5D1E06AF5000663C19 /* SGPictureTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGPictureTool.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +63,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A70A450F1F62A11000AAF37A /* DwonloadDemo */ = {
+			isa = PBXGroup;
+			children = (
+				A70A45101F62A12600AAF37A /* ViewController.h */,
+				A70A45111F62A12600AAF37A /* ViewController.m */,
+				A75D1E701DE94FEF0008BAF6 /* Main.storyboard */,
+				A70A45131F62A17900AAF37A /* LYProgressView.h */,
+				A70A45141F62A17900AAF37A /* LYProgressView.m */,
+				A70A45161F62BFFD00AAF37A /* LYDownloadManager.h */,
+				A70A45171F62BFFD00AAF37A /* LYDownloadManager.m */,
+			);
+			path = DwonloadDemo;
+			sourceTree = "<group>";
+		};
 		A75D1E5B1DE94FEE0008BAF6 = {
 			isa = PBXGroup;
 			children = (
@@ -85,21 +96,8 @@
 		A75D1E661DE94FEE0008BAF6 /* OfflineBreakPointDownload */ = {
 			isa = PBXGroup;
 			children = (
-				A7BB1C591E06A25A00663C19 /* UIImage+ViewImage.h */,
-				A7BB1C5A1E06A25A00663C19 /* UIImage+ViewImage.m */,
 				A78225ED1DF297F400506BA3 /* SGDwonload */,
-				A75D1E6A1DE94FEE0008BAF6 /* AppDelegate.h */,
-				A75D1E6B1DE94FEE0008BAF6 /* AppDelegate.m */,
-				A75D1E6D1DE94FEE0008BAF6 /* ViewController.h */,
-				A75D1E6E1DE94FEE0008BAF6 /* ViewController.m */,
-				A7BB1C5C1E06AF5000663C19 /* SGPictureTool.h */,
-				A7BB1C5D1E06AF5000663C19 /* SGPictureTool.m */,
-				A76B25121E29E1A800729257 /* Runloop.h */,
-				A76B25131E29E1A800729257 /* Runloop.m */,
-				A75D1E701DE94FEF0008BAF6 /* Main.storyboard */,
-				A75D1E731DE94FEF0008BAF6 /* Assets.xcassets */,
-				A75D1E751DE94FEF0008BAF6 /* LaunchScreen.storyboard */,
-				A75D1E781DE94FEF0008BAF6 /* Info.plist */,
+				A70A450F1F62A11000AAF37A /* DwonloadDemo */,
 				A75D1E671DE94FEE0008BAF6 /* Supporting Files */,
 			);
 			path = OfflineBreakPointDownload;
@@ -108,6 +106,11 @@
 		A75D1E671DE94FEE0008BAF6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A75D1E6A1DE94FEE0008BAF6 /* AppDelegate.h */,
+				A75D1E6B1DE94FEE0008BAF6 /* AppDelegate.m */,
+				A75D1E731DE94FEF0008BAF6 /* Assets.xcassets */,
+				A75D1E751DE94FEF0008BAF6 /* LaunchScreen.storyboard */,
+				A75D1E781DE94FEF0008BAF6 /* Info.plist */,
 				A75D1E681DE94FEE0008BAF6 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -163,7 +166,7 @@
 				TargetAttributes = {
 					A75D1E631DE94FEE0008BAF6 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = WZ22KTPCG8;
+						DevelopmentTeam = QDH66RGJXX;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -208,13 +211,12 @@
 				A78225FD1DF297F400506BA3 /* SGDownloadManager.m in Sources */,
 				A78225FB1DF297F400506BA3 /* SGCacheManager.m in Sources */,
 				A78225FE1DF297F400506BA3 /* SGDownloadOperation.m in Sources */,
+				A70A45121F62A12600AAF37A /* ViewController.m in Sources */,
 				A78225FF1DF297F400506BA3 /* SGDownloadQueue.m in Sources */,
-				A75D1E6F1DE94FEE0008BAF6 /* ViewController.m in Sources */,
-				A7BB1C5E1E06AF5000663C19 /* SGPictureTool.m in Sources */,
-				A76B25141E29E1A800729257 /* Runloop.m in Sources */,
 				A75D1E6C1DE94FEE0008BAF6 /* AppDelegate.m in Sources */,
 				A78225FA1DF297F400506BA3 /* NSString+SGHashString.m in Sources */,
-				A7BB1C5B1E06A25A00663C19 /* UIImage+ViewImage.m in Sources */,
+				A70A45151F62A17900AAF37A /* LYProgressView.m in Sources */,
+				A70A45181F62BFFD00AAF37A /* LYDownloadManager.m in Sources */,
 				A75D1E691DE94FEE0008BAF6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,6 +230,7 @@
 				A75D1E711DE94FEF0008BAF6 /* Base */,
 			);
 			name = Main.storyboard;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		A75D1E751DE94FEF0008BAF6 /* LaunchScreen.storyboard */ = {
@@ -335,12 +338,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = WZ22KTPCG8;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = QDH66RGJXX;
 				INFOPLIST_FILE = OfflineBreakPointDownload/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhangsg.OfflineBreakPointDownload;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -348,12 +353,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = WZ22KTPCG8;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = QDH66RGJXX;
 				INFOPLIST_FILE = OfflineBreakPointDownload/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhangsg.OfflineBreakPointDownload;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

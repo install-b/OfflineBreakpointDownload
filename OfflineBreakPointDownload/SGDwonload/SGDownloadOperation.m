@@ -63,8 +63,6 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
         });
         
     }
-    
-    
     // 创建文件句柄
     self.handle = [NSFileHandle fileHandleForWritingAtPath:self.fullPath];
     
@@ -109,14 +107,11 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
 - (void)completCusesseWithCode:(NSInteger)code {
     // 获取下载信息
     NSDictionary *dict = [self downLoadInfoWithFinished:YES];
-    // 回调
-    //!self.didComplete ? : self.didComplete(dict,nil);
     
     // 回到主线程 回调
     if (self.didComplete) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.didComplete(dict,nil);
-            //dispatch_semaphore_signal([[SGDownloadManager shareManager] getSemaphore]);
         });
     }
     
@@ -183,8 +178,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     
     // 创建task
     _dataTask = [session dataTaskWithRequest:request];
-    
-
+    [session downloadTaskWithRequest:<#(nonnull NSURLRequest *)#>]
 }
 
 #pragma mark - 初始化下载信息

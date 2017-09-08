@@ -11,30 +11,44 @@
 #import "SGCacheManager.h"
 
 
-static SGDownloadManager *_instance;
 
-static SGDownloader *_downloader;
 
 @interface SGDownloadManager ()
 
 @property(nonatomic,strong) SGDownloader *downloader;
+
+/** 唯一标识 */
+@property (nonatomic,copy)NSString * identifier;
 
 @end
 
 
 @implementation SGDownloadManager
 
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
+- (instancetype)init {
+    return [self initWithBackgroundSessionConfigurationWithIdentifier:nil];
+}
+
+- (instancetype)initWithBackgroundSessionConfigurationWithIdentifier:(NSString *)identifier {
+    if (self = [super init]) {
+        _identifier = identifier;
+    }
+    return self;
+}
+
++ (instancetype)shareManager {
+    static SGDownloadManager *_instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _instance = [[super allocWithZone:zone] init];
+        _instance = [[self alloc] init];
     });
     return _instance;
 }
 
-+ (instancetype)shareManager {
-    return [[self alloc] init];
+- (void)handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:   (URLSessionCompleteHandler)completionHandler {
+    [self.downloader handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
 }
+
 
 #pragma mark - configs
 /** 配置任务等待时间 默认超时为-1 */
@@ -62,7 +76,15 @@ static SGDownloader *_downloader;
 
 - (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complete {
     
-    //dispatch_semaphore_wait([self getSemaphore], DISPATCH_TIME_FOREVER);
+    if (![url isKindOfClass:NSURL.class]) {
+        if ([url isKindOfClass:NSString.class]) {
+            url = [NSURL URLWithString:(NSString *)url];
+        }else {
+            
+            return;
+        }
+    }
+   
     // 开启异步 操作
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         // 本地查找
@@ -70,9 +92,11 @@ static SGDownloader *_downloader;
         
         // 本地存在直接返回
         if ([fileInfo[isFinished] integerValue]) {
-            !complete ? : complete(fileInfo,nil);
             
-            //dispatch_semaphore_signal([self getSemaphore]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                !complete ? : complete(fileInfo,nil);
+            });
+            
             return;
         }
         
@@ -134,10 +158,13 @@ static SGDownloader *_downloader;
 
 
 #pragma mark - 
+- (NSURLSession *)backgroundURLSession {
+    return _downloader.backgroundURLSession;
+}
 - (SGDownloader *)downloader {
     
     if (!_downloader) {
-        _downloader = [[SGDownloader alloc] init];
+        _downloader = [[SGDownloader alloc] initWithIdentifier:_identifier];
     }
     return _downloader;
 }

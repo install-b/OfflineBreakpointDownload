@@ -23,21 +23,41 @@ typedef enum : NSUInteger {
 } SGNetworkServiceType;
 
 
+typedef void(^SGDownloadBeginBlock)(NSString * filePath);
+typedef void(^SGDownloadProgressBlock)(NSInteger completeSize,NSInteger expectSize);
+typedef void(^SGDownloadCompleteBlock)(NSDictionary *respose,NSError *error);
+
+typedef void(^URLSessionCompleteHandler)(void);
+
 
 @interface SGDownloadManager : NSObject
+
+
+/**
+ 构造方法
+
+ @param identifier 后台session下载配置唯一标识
+ @return 实例化对象
+ */
+- (instancetype)initWithBackgroundSessionConfigurationWithIdentifier:(NSString *)identifier;
+
 /** 实例化对象（单例） */
 + (instancetype)shareManager;
 
 
+- (NSURLSession *)backgroundURLSession;
+
+- (void)handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(URLSessionCompleteHandler)completionHandler;
+
 #pragma mark - 添加下载任务同时开启任务下载
 /** 开启下载任务 监听完成下载 */
-- (void)downloadWithURL:(NSURL *)url complete:(void(^)(NSDictionary *respose,NSError *error))complete;
+- (void)downloadWithURL:(NSURL *)url complete:(SGDownloadCompleteBlock)complete;
 
 /** 开启下载任务 监听下载进度、完成下载 */
-- (void)downloadWithURL:(NSURL *)url progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complete;
+- (void)downloadWithURL:(NSURL *)url progress:(SGDownloadProgressBlock)progress complete:(void(^)(NSDictionary *respose,NSError *error))complete;
 
 /** 开启下载任务 监听开始下载信息、下载进度、完成下载 */
-- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complete;
+- (void)downloadWithURL:(NSURL *)url begin:(SGDownloadBeginBlock)begin progress:(SGDownloadProgressBlock)progress complete:(SGDownloadCompleteBlock)complete;
 
 
 #pragma mark - 队列中的任务进行操作

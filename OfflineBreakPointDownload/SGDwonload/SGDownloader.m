@@ -17,24 +17,32 @@
 /** 下载列队管理 专门负责接收到数据时分配给不同operation */
 @property (nonatomic,strong) SGDownloadQueue *queue;
 
-/** 下载配置 */
-@property (nonatomic,strong) NSURLSessionConfiguration *sessionConfig;
+/** 标识 */
+@property (nonatomic,copy)NSString * identifier;
+
+/** 完成回调 */
+@property (nonatomic,strong) NSMutableDictionary * completeHandleDictM;
+
 @end
 
 @implementation SGDownloader
-
+- (NSURLSession *)backgroundURLSession {
+    return _session;
+}
+- (instancetype)initWithIdentifier:(NSString *)identifier {
+    if (self = [super init]) {
+        _identifier = identifier;
+    }
+    return self;
+}
 // 添加任务
 - (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complet {
-    
     // 交给列队管理
     [self.queue downloadWithURL:url begin:begin progress:progress complete:complet];
-    
 }
 
 #pragma mark - 操作任务接口
-
 - (void)startDownLoadWithUrl:(NSString *)url {
-
     [self.queue operateDownloadWithUrl:url handle:DownloadHandleTypeStart];
 }
 
@@ -51,7 +59,6 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         // 取消所有session的任务 // 耗时操作
         [_session invalidateAndCancel]; // 会调用 URLSession:task:didCompleteWithError: 方法抛出error取消
-        
     });
     
 }
@@ -60,11 +67,34 @@
 
 // ssl 服务 证书信任
 - (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge   completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler{
-
+    if(![challenge.protectionSpace.authenticationMethod isEqualToString:@"NSURLAuthenticationMethodServerTrust"]) {
+        return;
+    }
     
-    completionHandler(NSURLSessionAuthChallengeUseCredential,challenge.proposedCredential);
-
+    // 信任该插件
+    NSURLCredential *credential = [[NSURLCredential alloc] initWithTrust:challenge.protectionSpace.serverTrust];
+    // 第一个参数 告诉系统如何处置
+    completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
+    //completionHandler(NSURLSessionAuthChallengeUseCredential,challenge.proposedCredential);
 }
+
+//当请求协议是https的时候回调用该方法
+//Challenge 挑战 质询(受保护空间)
+//NSURLAuthenticationMethodServerTrust 服务器信任证书
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * __nullable credential))completionHandler {
+    
+    
+    if(![challenge.protectionSpace.authenticationMethod isEqualToString:@"NSURLAuthenticationMethodServerTrust"]) {
+        return;
+    }
+    
+    // 信任该插件
+    NSURLCredential *credential = [[NSURLCredential alloc] initWithTrust:challenge.protectionSpace.serverTrust];
+    // 第一个参数 告诉系统如何处置
+    completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
+    
+}
+
 
 // 接受到响应调用
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
@@ -90,12 +120,70 @@ didCompleteWithError:(nullable NSError *)error {
     [self.queue task:task didCompleteWithError:error];
 }
 
+//NSURLSessionDelegate委托方法，会在NSURLSessionDownloadDelegate委托方法后执行
+- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
+    NSLog(@"Background URL session %@ finished events.\n", session);
+    if (session.configuration.identifier) {
+        // 调用在 -application:handleEventsForBackgroundURLSession: 中保存的 handler
+        NSString *identifier = session.configuration.identifier;
+        URLSessionCompleteHandler handler = [_completeHandleDictM objectForKey:identifier];
+        if (handler) {
+            [_completeHandleDictM removeObjectForKey:identifier];
+             NSLog(@"Calling completion handler for session %@", identifier);
+            handler();
+        }
+        
+    }
+}
+
+
+- (void)handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(URLSessionCompleteHandler)completionHandler {
+    if (identifier.length && completionHandler) {
+        [self.completeHandleDictM setObject:completionHandler forKey:identifier];
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask {
+    NSLog(@"%@--%@",dataTask,downloadTask);
+}
+- (void)URLSession:(NSURLSession *)session
+      downloadTask:(NSURLSessionDownloadTask *)downloadTask
+      didWriteData:(int64_t)bytesWritten
+ totalBytesWritten:(int64_t)totalBytesWritten
+totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    NSLog(@"didWriteData:%.2f%%",100.0 * totalBytesWritten / totalBytesExpectedToWrite);
+}
+
+/* Sent when a download has been resumed. If a download failed with an
+ * error, the -userInfo dictionary of the error will contain an
+ * NSURLSessionDownloadTaskResumeData key, whose value is the resume
+ * data.
+ */
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+ didResumeAtOffset:(int64_t)fileOffset
+expectedTotalBytes:(int64_t)expectedTotalBytes {
+    NSLog(@"didResumeAtOffset:%.2f%%",100.0 * fileOffset / expectedTotalBytes);
+}
+//和URLSession:downloadTask:didFinishDownloadingToURL:
 
 #pragma mark - lazy load
 - (NSURLSession *)session {
     
     if (!_session) {
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        
+        /*
+         NSString *identifier = @"com.yourcompany.appId.BackgroundSession";
+         NSURLSessionConfiguration* sessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
+         session = [NSURLSession sessionWithConfiguration:sessionConfig
+         delegate:self
+         delegateQueue:[NSOperationQueue mainQueue]];
+         */
+        
+        NSURLSessionConfiguration *config = //[NSURLSessionConfiguration defaultSessionConfiguration];
+        _identifier.length ?
+        [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:_identifier] :
+        [NSURLSessionConfiguration defaultSessionConfiguration];
+        
         // 设置请求超时
         config.timeoutIntervalForRequest = -1;
         config.networkServiceType = NSURLNetworkServiceTypeVideo;
@@ -103,21 +191,19 @@ didCompleteWithError:(nullable NSError *)error {
         config.TLSMaximumSupportedProtocol = kSSLProtocolAll;
         
         _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue currentQueue]];
-
     }
     
     return _session;
 }
 
 
-- (NSURLSessionConfiguration *)sessionConfig {
-    if (!_sessionConfig) {
-        _sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-        _sessionConfig.timeoutIntervalForRequest = -1;
-    }
-    return _sessionConfig;
-}
 
+- (NSMutableDictionary *)completeHandleDictM {
+    if (!_completeHandleDictM) {
+        _completeHandleDictM = [NSMutableDictionary dictionary];
+    }
+    return _completeHandleDictM;
+}
 - (SGDownloadQueue *)queue {
 
     if (!_queue) {

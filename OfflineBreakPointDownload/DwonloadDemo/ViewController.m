@@ -7,14 +7,19 @@
 //
 
 #import "ViewController.h"
-#import "SGDownloadManager.h"
+#import "LYDownloadManager.h"
 #import "SGCacheManager.h"
-#import "SGPictureTool.h"
-#import "UIImage+ViewImage.h"
+#import "LYProgressView.h"
+
 
 @interface ViewController ()
 
 @property(nonatomic,strong) NSArray *dataList;
+@property (weak, nonatomic) IBOutlet LYProgressView *progressView1;
+
+@property (weak, nonatomic) IBOutlet LYProgressView *progressView2;
+@property (weak, nonatomic) IBOutlet LYProgressView *progressView3;
+
 
 @end
 
@@ -25,22 +30,14 @@
     self.view.backgroundColor = [UIColor purpleColor];
     
 }
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    // 截屏
-    UIImage *image = [UIImage imageForView:self.view];
-    
-    [SGPictureTool sg_saveAImage:image withFolferName:nil error:^(NSError *error) {
-        error ? NSLog(@"保存失败\n%@",error) : NSLog(@"保存成功");
-    }];
-    
-}
+
 
 - (IBAction)clickDownload:(UIButton *)sender {
     
     sender.selected = !sender.selected;
     
     NSInteger index = sender.tag - 11;
-    SGDownloadManager *manager = [SGDownloadManager shareManager];
+    SGDownloadManager *manager = [LYDownloadManager shareManager];
     
     if (index >= self.dataList.count || index < 0) { // 越界 校验
         
@@ -62,10 +59,26 @@
 
 - (void)downlaodWithUrl:(NSURL *)url withBtn:(UIButton *)sender{
    
-    [[SGDownloadManager shareManager] downloadWithURL:url progress:^(NSInteger completeSize, NSInteger expectSize) { // 进度监听
-                        
+    LYProgressView *proressView = nil;
+    switch (sender.tag - 10) {
+        case 1:
+            proressView = self.progressView1;//.progress = 1.0 * completeSize / expectSize;
+            break;
+        case 2:
+            proressView = self.progressView2;//self.progressView2.progress = 1.0 * completeSize / expectSize;
+            break;
+        case 3:
+            proressView = self.progressView3;//self.progressView3.progress = 1.0 * completeSize / expectSize;
+            break;
+            
+        default:
+            break;
+    }
+
+    [[LYDownloadManager shareManager] downloadWithURL:url progress:^(NSInteger completeSize, NSInteger expectSize) { // 进度监听
+        proressView.progress = 1.0 * completeSize / expectSize;
         NSLog(@"任务：%zd -- %.2f%%",index,100.0 * completeSize / expectSize);
-    
+        
     }complete:^(NSDictionary *respose, NSError *error) {  // 下载完成
                         
         [sender setTitle:@"完成" forState:UIControlStateDisabled];
@@ -73,28 +86,16 @@
         
         if(error) {
             NSLog(@"任务：%zd 下载错误%@",index,error);
+            
             return ;
         }
-        
+        proressView.progress = 1.0;
         NSLog(@"任务：%zd 下载完成%@",index,respose);
-        // 保存到相册
-        NSURL *url1 = [NSURL fileURLWithPath:respose[filePath]];
-        [self saveVideoWithURL:url1];
+       
         sender.enabled = NO;
     }];
 }
 
-// 保存图片
-- (void)saveVideoWithURL:(NSURL *)URL {
-    
-    [SGPictureTool sg_saveVideo:URL withFolferName:@"test" error:^(NSError *error) {
-        if (error) {
-            NSLog(@"保存失败");
-        }else {
-            NSLog(@"保存成功");
-        }
-    }];
-}
 
 - (NSArray *)dataList {
     if (!_dataList) {
