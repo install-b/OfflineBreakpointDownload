@@ -178,7 +178,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     
     // 创建task
     _dataTask = [session dataTaskWithRequest:request];
-    [session downloadTaskWithRequest:<#(nonnull NSURLRequest *)#>]
+    //[session downloadTaskWithRequest:<#(nonnull NSURLRequest *)#>]
 }
 
 #pragma mark - 初始化下载信息

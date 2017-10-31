@@ -13,7 +13,8 @@
     static LYDownloadManager *_instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _instance = [[self alloc] initWithBackgroundSessionConfigurationWithIdentifier:@"com.zhangsg.OfflineBreakPointDownload"];
+        _instance = [[super alloc] init];
+        //_instance = [[self alloc] initWithBackgroundSessionConfigurationWithIdentifier:@"com.zhangsg.OfflineBreakPointDownload"];
     });
     return _instance;
 }
