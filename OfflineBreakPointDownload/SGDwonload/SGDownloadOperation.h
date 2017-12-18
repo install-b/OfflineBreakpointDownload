@@ -9,23 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "SGCacheManager.h"
 
+
 SG_EXTERN NSString * const SGDownloadCompleteNoti;
 
-@interface SGDownloadOperation : NSObject
+typedef void(^SGReceiveResponseOperation)(NSString *filePath);
+typedef void(^SGReceivDataOperation)(NSInteger completeSize,NSInteger expectSize);
+typedef void(^SGCompleteOperation)(NSDictionary *respose,NSError *error);
 
-- (instancetype)initWith:(NSString *)url session:(NSURLSession *)session;
 
-//  绑定的标示及task的创建
-@property (nonatomic, copy)NSString *url;
-
-@property (nonatomic,strong)NSURLSessionDataTask *dataTask;
-
-// 回调的方法
-@property (nonatomic, copy) void(^didReceiveResponse)(NSString *filePath);
-
-@property (nonatomic, copy) void(^didReceivData)(NSInteger completeSize,NSInteger expectSize);
-
-@property (nonatomic, copy) void(^didComplete)(NSDictionary *respose,NSError *error);
+@protocol SGDownloadOperationProtocol <NSObject>
 
 // 供queue管理方法
 - (void)sg_didReceiveResponse:(NSURLResponse *)response;
@@ -34,4 +26,23 @@ SG_EXTERN NSString * const SGDownloadCompleteNoti;
 
 - (void)sg_didComplete:(NSError *)error;
 
+
+- (void)configCallBacksWithDidReceiveResponse:(SGReceiveResponseOperation)didReceiveResponse
+                                didReceivData:(SGReceivDataOperation)didReceivData
+                                  didComplete:(SGCompleteOperation)didComplete;
+
 @end
+
+@interface SGDownloadOperation : NSObject <SGDownloadOperationProtocol>
+
+// 创建下载操作任务
+- (instancetype)initWith:(NSString *)url session:(NSURLSession *)session;
+
+// 绑定的标示及task的创建
+@property (readonly,nonatomic, copy)NSString *url;
+
+// 下载任务
+@property (readonly,nonatomic,strong)NSURLSessionDataTask *dataTask;
+
+@end
+

@@ -21,6 +21,7 @@
 		A78225FD1DF297F400506BA3 /* SGDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F51DF297F400506BA3 /* SGDownloadManager.m */; };
 		A78225FE1DF297F400506BA3 /* SGDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F71DF297F400506BA3 /* SGDownloadOperation.m */; };
 		A78225FF1DF297F400506BA3 /* SGDownloadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A78225F91DF297F400506BA3 /* SGDownloadQueue.m */; };
+		A7D44D4B1FE7CFD4008FD295 /* NSURLSession+SGDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D44D4A1FE7CFD4008FD295 /* NSURLSession+SGDownloadTask.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,8 @@
 		A78225F71DF297F400506BA3 /* SGDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadOperation.m; sourceTree = "<group>"; };
 		A78225F81DF297F400506BA3 /* SGDownloadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGDownloadQueue.h; sourceTree = "<group>"; };
 		A78225F91DF297F400506BA3 /* SGDownloadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGDownloadQueue.m; sourceTree = "<group>"; };
+		A7D44D491FE7CFD4008FD295 /* NSURLSession+SGDownloadTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+SGDownloadTask.h"; sourceTree = "<group>"; };
+		A7D44D4A1FE7CFD4008FD295 /* NSURLSession+SGDownloadTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+SGDownloadTask.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +132,8 @@
 				A78225F51DF297F400506BA3 /* SGDownloadManager.m */,
 				A78225F61DF297F400506BA3 /* SGDownloadOperation.h */,
 				A78225F71DF297F400506BA3 /* SGDownloadOperation.m */,
+				A7D44D491FE7CFD4008FD295 /* NSURLSession+SGDownloadTask.h */,
+				A7D44D4A1FE7CFD4008FD295 /* NSURLSession+SGDownloadTask.m */,
 				A78225F81DF297F400506BA3 /* SGDownloadQueue.h */,
 				A78225F91DF297F400506BA3 /* SGDownloadQueue.m */,
 			);
@@ -207,6 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7D44D4B1FE7CFD4008FD295 /* NSURLSession+SGDownloadTask.m in Sources */,
 				A78225FC1DF297F400506BA3 /* SGDownloader.m in Sources */,
 				A78225FD1DF297F400506BA3 /* SGDownloadManager.m in Sources */,
 				A78225FB1DF297F400506BA3 /* SGCacheManager.m in Sources */,

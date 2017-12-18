@@ -62,13 +62,13 @@
     LYProgressView *proressView = nil;
     switch (sender.tag - 10) {
         case 1:
-            proressView = self.progressView1;//.progress = 1.0 * completeSize / expectSize;
+            proressView = self.progressView1;
             break;
         case 2:
-            proressView = self.progressView2;//self.progressView2.progress = 1.0 * completeSize / expectSize;
+            proressView = self.progressView2;
             break;
         case 3:
-            proressView = self.progressView3;//self.progressView3.progress = 1.0 * completeSize / expectSize;
+            proressView = self.progressView3;
             break;
             
         default:
@@ -100,7 +100,7 @@
 - (NSArray *)dataList {
     if (!_dataList) {
         _dataList = @[
-                      @"http://120.25.226.186:32812/resources/videos/minion_01.mp4",
+                      @"http://ftp.71chat.com/group1/M00/00/72/Cj2sS1ndg7CARyEyAVCEq5sDYms413.jpg",
                       @"http://120.25.226.186:32812/resources/videos/minion_07.mp4",
                       @"http://120.25.226.186:32812/resources/videos/minion_08.mp4",
                       ];

@@ -11,11 +11,11 @@
 
 @interface SGDownloader : NSObject
 
-- (instancetype)initWithIdentifier:(NSString *)identifier;
-- (NSURLSession *)backgroundURLSession;
-- (void)handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(URLSessionCompleteHandler)completionHandler;
 // 接口回调
-- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complet;
+- (void)downloadWithURL:(NSURL *)url
+                  begin:(void(^)(NSString *))begin
+               progress:(void(^)(NSInteger,NSInteger))progress
+               complete:(void(^)(NSDictionary *,NSError *))complet;
 
 
 - (void)startDownLoadWithUrl:(NSString *)url;

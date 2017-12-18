@@ -97,7 +97,8 @@
 
 
 // 接受到响应调用
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     
@@ -120,57 +121,11 @@ didCompleteWithError:(nullable NSError *)error {
     [self.queue task:task didCompleteWithError:error];
 }
 
-//NSURLSessionDelegate委托方法，会在NSURLSessionDownloadDelegate委托方法后执行
-- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
-    NSLog(@"Background URL session %@ finished events.\n", session);
-    if (session.configuration.identifier) {
-        // 调用在 -application:handleEventsForBackgroundURLSession: 中保存的 handler
-        NSString *identifier = session.configuration.identifier;
-        URLSessionCompleteHandler handler = [_completeHandleDictM objectForKey:identifier];
-        if (handler) {
-            [_completeHandleDictM removeObjectForKey:identifier];
-             NSLog(@"Calling completion handler for session %@", identifier);
-            handler();
-        }
-        
-    }
-}
-
-
-- (void)handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(URLSessionCompleteHandler)completionHandler {
-    if (identifier.length && completionHandler) {
-        [self.completeHandleDictM setObject:completionHandler forKey:identifier];
-    }
-}
-
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask {
-    NSLog(@"%@--%@",dataTask,downloadTask);
-}
-- (void)URLSession:(NSURLSession *)session
-      downloadTask:(NSURLSessionDownloadTask *)downloadTask
-      didWriteData:(int64_t)bytesWritten
- totalBytesWritten:(int64_t)totalBytesWritten
-totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-    NSLog(@"didWriteData:%.2f%%",100.0 * totalBytesWritten / totalBytesExpectedToWrite);
-}
-
-/* Sent when a download has been resumed. If a download failed with an
- * error, the -userInfo dictionary of the error will contain an
- * NSURLSessionDownloadTaskResumeData key, whose value is the resume
- * data.
- */
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
- didResumeAtOffset:(int64_t)fileOffset
-expectedTotalBytes:(int64_t)expectedTotalBytes {
-    NSLog(@"didResumeAtOffset:%.2f%%",100.0 * fileOffset / expectedTotalBytes);
-}
-//和URLSession:downloadTask:didFinishDownloadingToURL:
 
 #pragma mark - lazy load
 - (NSURLSession *)session {
     
     if (!_session) {
-        
         /*
          NSString *identifier = @"com.yourcompany.appId.BackgroundSession";
          NSURLSessionConfiguration* sessionConfig = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
@@ -178,12 +133,7 @@ expectedTotalBytes:(int64_t)expectedTotalBytes {
          delegate:self
          delegateQueue:[NSOperationQueue mainQueue]];
          */
-        
-        NSURLSessionConfiguration *config = //[NSURLSessionConfiguration defaultSessionConfiguration];
-        _identifier.length ?
-        [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:_identifier] :
-        [NSURLSessionConfiguration defaultSessionConfiguration];
-        
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
         // 设置请求超时
         config.timeoutIntervalForRequest = -1;
         config.networkServiceType = NSURLNetworkServiceTypeVideo;

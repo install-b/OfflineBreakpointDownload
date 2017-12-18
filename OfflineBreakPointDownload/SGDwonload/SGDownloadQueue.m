@@ -39,13 +39,9 @@
 - (void)didResiveDownloadFileCompete:(NSNotification *)noti {
 
     SGDownloadOperation *operation = noti.object;
-    
     if (operation) {
         [self.operations removeObject:operation];
-        //dispatch_semaphore_signal([[SGDownloadManager shareManager] getSemaphore]);
     }
-  
-    
 }
 
 #pragma mark - handle Out operations
@@ -53,24 +49,26 @@
     // 获取operation对象
     SGDownloadOperation *operation = [self operationWithUrl:url.absoluteString];
     
-    if (!operation) {
+    if (operation == nil) {
+        
         operation = [[SGDownloadOperation alloc] initWith:url.absoluteString session:self.session];
         
-        if (!(operation.dataTask)) {
+        if (operation == nil) {
             // 没有下载任务代表已下载完成
             NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url.absoluteString];
             if (fileInfo && complet) {
                 complet(fileInfo,nil);
+            }else {
+                complet(nil,[NSError errorWithDomain:@"构建下载任务失败" code:-1 userInfo:nil]);
             }
             return;
         }
         
-        // 回调赋值operation
-        operation.didReceiveResponse = begin;
-        operation.didReceivData = progress;
-        operation.didComplete = complet;
         [self.operations addObject:operation];
     }
+    
+    // 回调赋值operation
+    [operation configCallBacksWithDidReceiveResponse:begin didReceivData:progress didComplete:complet];
     
     [operation.dataTask resume];
     
@@ -83,16 +81,16 @@
     if (!operation) {
         return;
     } else if (!operation.dataTask) {
-        if (!operation.didComplete || !(handle == DownloadHandleTypeStart)) {
-            [self.operations removeObject:operation];
-            return;
-        }
-
-        NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url];
-        
-        if (fileInfo) {
-            operation.didComplete(fileInfo,nil);
-        }
+//        if (!operation.didComplete || !(handle == DownloadHandleTypeStart)) {
+//            [self.operations removeObject:operation];
+//            return;
+//        }
+//
+//        NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url];
+//
+//        if (fileInfo) {
+//            operation.didComplete(fileInfo,nil);
+//        }
         
         [self.operations removeObject:operation];
         return;

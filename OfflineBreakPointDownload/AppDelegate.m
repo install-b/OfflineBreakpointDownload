@@ -22,13 +22,4 @@
 }
 
 
-
-- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler {
-//    NSURLSession *backgroundSession = [[SGDownloadManager shareManager] backgroundURLSession];
-//    NSLog(@"Rejoining session with identifier %@ %@", identifier, backgroundSession);
-    // 保存 completion handler 以在处理 session 事件后更新 UI
-    NSLog(@"identifier:%@",identifier);
-    [[LYDownloadManager shareManager] handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
-}
-
 @end

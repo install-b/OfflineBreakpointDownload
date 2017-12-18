@@ -45,25 +45,6 @@
     return _instance;
 }
 
-- (void)handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:   (URLSessionCompleteHandler)completionHandler {
-    [self.downloader handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
-}
-
-
-#pragma mark - configs
-/** 配置任务等待时间 默认超时为-1 */
-- (void)configRequestTimeOut:(NSTimeInterval)requestTimeOut {
-    
-}
-/** 配置网络服务类型 */
-- (void)configNetWorkServiceType:(SGNetworkServiceType) networkServiceType {
-    
-}
-
-/** 配置最大下载量 */
-- (void)configMaxDownloadTaskNumber:(NSInteger)maxTaskNumer {
-    //self.maxDownloadNumber = maxTaskNumer;
-}
 
 #pragma mark - 外界交互
 - (void)downloadWithURL:(NSURL *)url complete:(void(^)(NSDictionary *,NSError *))complete{
@@ -149,22 +130,11 @@
     _downloader = nil;
 }
 
-/** 获取当前所有的下载任务 */
-- (NSArray *)currentDownloadTasks {
-
-    
-    return nil;
-}
-
-
-#pragma mark - 
-- (NSURLSession *)backgroundURLSession {
-    return _downloader.backgroundURLSession;
-}
+#pragma mark - lazy load
 - (SGDownloader *)downloader {
     
     if (!_downloader) {
-        _downloader = [[SGDownloader alloc] initWithIdentifier:_identifier];
+        _downloader = [[SGDownloader alloc] init];
     }
     return _downloader;
 }
