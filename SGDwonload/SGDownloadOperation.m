@@ -58,7 +58,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
 }
 
 #pragma mark - setups
-- (NSInteger)getFileSizeWithURL:(NSString *)url {
+- (int64_t)getFileSizeWithURL:(NSString *)url {
     // md5文件名加密
     NSString *md5FielName = [url sg_md5HashString];
     // 获取后缀名
@@ -77,7 +77,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     // 获取下载进度
     NSDictionary *fileInfo = [[NSFileManager defaultManager] attributesOfItemAtPath:self.fullPath error:nil];
     // 获取已下载的长度
-    return  [fileInfo[NSFileSize] integerValue];
+    return  [fileInfo[NSFileSize] longLongValue];
 }
 
 #pragma mark - SGDownloadOperationProtocol
@@ -120,7 +120,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     // 下载状态 通知代理
     if (_didReceivDataCallBack) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            _didReceivDataCallBack(self.currentSize,self.totalSize);
+            _didReceivDataCallBack((NSUInteger)self.currentSize,(NSUInteger)self.totalSize);
         });
     }
 }

@@ -10,7 +10,7 @@
 
 @implementation NSURLSession (SGDownloadTask)
 - (NSURLSessionDataTask *)sg_downloadDataTaskWithURLString:(NSString *)urlString
-                                                  startSize:(NSUInteger)startSize {
+                                                  startSize:(int64_t)startSize {
     // 校验URL
     if (urlString.length == 0) {
         return nil;

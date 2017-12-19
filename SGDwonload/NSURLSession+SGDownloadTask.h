@@ -18,5 +18,5 @@
  @return 下载任务
  */
 - (NSURLSessionDataTask *)sg_downloadDataTaskWithURLString:(NSString *)urlString
-                                                  startSize:(NSUInteger)startSize;
+                                                  startSize:(int64_t)startSize;
 @end
