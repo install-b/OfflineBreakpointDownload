@@ -17,17 +17,21 @@ typedef  enum : NSUInteger {
 
 
 @interface SGDownloadQueue : NSObject
-// 构造方法
-- (instancetype)initWithSession:(NSURLSession *)sesseion;
 
 // 添加下载任务
-- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString * filePath))begin progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress complete:(void(^)(NSDictionary *respose,NSError *error))complet;
+- (void)addDownloadWithSession:(NSURLSession *)session
+                        URL:(NSURL *)url
+                      begin:(void(^)(NSString * filePath))begin
+                   progress:(void(^)(NSInteger completeSize,NSInteger expectSize))progress
+                   complete:(void(^)(NSDictionary *respose,NSError *error))complet;
 
 // 对当前任务进行操作
 - (void)operateDownloadWithUrl:(NSString *)url handle:(DownloadHandleType)handle;
 
 // 取消所有任务
 - (void)cancelAllTasks;
+- (void)suspendAllTasks;
+- (void)startAllTasks;
 
 // 供downloader 处理下载调用
 - (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response;

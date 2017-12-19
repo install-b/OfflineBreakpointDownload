@@ -122,7 +122,7 @@ NSString const * totalSize  =  @"totalSize";
 }
 
 /**  删除配置信息 */
-+ (BOOL)deleteFileInfoWithUrl:(NSString *)url {
++ (BOOL)deleteFileWithUrl:(NSString *)url {
     // 线程等待 分配信号量 (信号量 + 1)
     dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     
@@ -140,6 +140,7 @@ NSString const * totalSize  =  @"totalSize";
 
 
 #pragma mark - 
+
 + (BOOL)clearDisks {
     // 1.删除所有的文件下载信息关联表
     // 2.删除cache 下的download文件夹

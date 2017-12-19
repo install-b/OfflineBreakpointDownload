@@ -5,6 +5,8 @@
 //  Created by Shangen Zhang on 16/11/26.
 //  Copyright © 2016年 Shangen Zhang. All rights reserved.
 //
+
+
 #define SG_EXTERN extern
 #import <Foundation/Foundation.h>
 
@@ -15,6 +17,7 @@ SG_EXTERN NSString const * totalSize;
 SG_EXTERN NSString const * fileName;
 SG_EXTERN NSString const * fileUrl;
 SG_EXTERN NSString const * isFinished;
+
 
 @interface SGCacheManager : NSObject
 
@@ -30,9 +33,9 @@ SG_EXTERN NSString const * isFinished;
 /**  增加配置信息 */
 + (BOOL)saveFileInfoWithDict:(NSDictionary *)dict;
 
-/**  删除配置信息 */
-+ (BOOL)deleteFileInfoWithUrl:(NSString *)url;
 
+/**  删除某个文件 */
++ (BOOL)deleteFileWithUrl:(NSString *)url;
 
 /**  清理所有下载文件及下载信息 */
 + (BOOL)clearDisks;
