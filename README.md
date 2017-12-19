@@ -16,7 +16,7 @@
 	platform :ios, '8.0'
 	
 	target 'TargetName' do
-	pod 'SGDwonload', '~> 0.0.2'
+	pod 'SGDwonload', '~> 0.0.3'
 	end
 Then, run the following command:
 
