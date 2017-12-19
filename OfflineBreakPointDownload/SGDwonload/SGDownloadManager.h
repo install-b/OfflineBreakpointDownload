@@ -8,16 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
+
+
+/**
+ block 回调
+ */
 typedef void(^SGDownloadBeginBlock)(NSString * filePath);
 typedef void(^SGDownloadProgressBlock)(NSInteger completeSize,NSInteger expectSize);
 typedef void(^SGDownloadCompleteBlock)(NSDictionary *respose,NSError *error);
 
 
+/**
+ 下载管理
+ */
 @interface SGDownloadManager : NSObject
 
 /** 实例化对象（单例） */
 + (instancetype)shareManager;
-
 
 #pragma mark - 添加下载任务同时开启任务下载
 /** 开启下载任务 监听完成下载 */
@@ -34,6 +41,7 @@ typedef void(^SGDownloadCompleteBlock)(NSDictionary *respose,NSError *error);
                   begin:(SGDownloadBeginBlock)begin
                progress:(SGDownloadProgressBlock)progress
                complete:(SGDownloadCompleteBlock)complete;
+
 
 
 #pragma mark - 队列中的任务进行操作
@@ -55,6 +63,7 @@ typedef void(^SGDownloadCompleteBlock)(NSDictionary *respose,NSError *error);
 
 /** 停止当前所有的下载任务 调用此方法会清空所有列队下载任务 */
 - (void)stopAllDownloads;
+
 @end
 
 

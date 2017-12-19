@@ -18,15 +18,24 @@ typedef void(^SGCompleteOperation)(NSDictionary *respose,NSError *error);
 
 
 @protocol SGDownloadOperationProtocol <NSObject>
-
+                                    
 // 供queue管理方法
-- (void)sg_didReceiveResponse:(NSURLResponse *)response;
 
-- (void)sg_didReceivData:(NSData *)data;
+// 处理响应值
+- (void)operateWithResponse:(NSURLResponse *)response;
+// 处理接收到的碎片
+- (void)operateWithReceivingData:(NSData *)data;
+// 处理完成回调
+- (void)operateWithComplete:(NSError *)error;
 
-- (void)sg_didComplete:(NSError *)error;
 
+/**
+ 设置block回调
 
+ @param didReceiveResponse 开始下载的回调
+ @param didReceivData 接收到下载的回调
+ @param didComplete 下载完成的回调
+ */
 - (void)configCallBacksWithDidReceiveResponse:(SGReceiveResponseOperation)didReceiveResponse
                                 didReceivData:(SGReceivDataOperation)didReceivData
                                   didComplete:(SGCompleteOperation)didComplete;

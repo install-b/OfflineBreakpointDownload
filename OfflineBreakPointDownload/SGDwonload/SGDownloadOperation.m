@@ -82,7 +82,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
 
 #pragma mark - SGDownloadOperationProtocol
 // 接收到相应时
-- (void)sg_didReceiveResponse:(NSURLResponse *)response {
+- (void)operateWithResponse:(NSURLResponse *)response {
     // 总的size
     self.totalSize = self.currentSize + response.expectedContentLength;
     
@@ -110,7 +110,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     }
 }
 
-- (void)sg_didReceivData:(NSData *)data {
+- (void)operateWithReceivingData:(NSData *)data {
     // 获得已经下载的文件大小
     self.currentSize += data.length;
     
@@ -125,7 +125,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     }
 }
 
-- (void)sg_didComplete:(NSError *)error {
+- (void)operateWithComplete:(NSError *)error {
     // 关闭文件句柄
     [self.handle closeFile];
     // 释放文件句柄

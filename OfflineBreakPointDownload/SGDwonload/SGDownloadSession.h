@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SGDownloadManager.h"
 
-@interface SGDownloader : NSObject
+@interface SGDownloadSession : NSObject
 
 // 接口回调
 - (void)downloadWithURL:(NSURL *)url
@@ -25,4 +25,6 @@
 - (void)cancelDownloadWithUrl:(NSString *)url;
 
 - (void)cancelAllDownloads;
+- (void)startAllDownloads;
+- (void)suspendAllDownloads;
 @end

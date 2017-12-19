@@ -18,7 +18,7 @@
     
     CC_MD5(str, (CC_LONG)strlen(str), buffer);
     
-    return [self stringFromBytes:buffer length:CC_MD5_DIGEST_LENGTH];
+    return [self sg_stringFromBytes:buffer length:CC_MD5_DIGEST_LENGTH];
     
 }
 
@@ -30,7 +30,7 @@
  *
  *  @return 字符串表示形式
  */
-- (NSString *)stringFromBytes:(uint8_t *)bytes length:(int)length {
+- (NSString *)sg_stringFromBytes:(uint8_t *)bytes length:(int)length {
     NSMutableString *strM = [NSMutableString string];
     
     for (int i = 0; i < length; i++) {

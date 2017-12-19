@@ -7,34 +7,18 @@
 //
 
 #import "SGDownloadManager.h"
-#import "SGDownloader.h"
+#import "SGDownloadSession.h"
 #import "SGCacheManager.h"
-
-
 
 
 @interface SGDownloadManager ()
 
-@property(nonatomic,strong) SGDownloader *downloader;
-
-/** 唯一标识 */
-@property (nonatomic,copy)NSString * identifier;
+@property(nonatomic,strong) SGDownloadSession *downloadSession;
 
 @end
 
 
 @implementation SGDownloadManager
-
-- (instancetype)init {
-    return [self initWithBackgroundSessionConfigurationWithIdentifier:nil];
-}
-
-- (instancetype)initWithBackgroundSessionConfigurationWithIdentifier:(NSString *)identifier {
-    if (self = [super init]) {
-        _identifier = identifier;
-    }
-    return self;
-}
 
 + (instancetype)shareManager {
     static SGDownloadManager *_instance;
@@ -61,11 +45,11 @@
         if ([url isKindOfClass:NSString.class]) {
             url = [NSURL URLWithString:(NSString *)url];
         }else {
+            // 失败回调
             
             return;
         }
     }
-   
     // 开启异步 操作
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         // 本地查找
@@ -77,13 +61,11 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 !complete ? : complete(fileInfo,nil);
             });
-            
             return;
         }
         
         // 交给downloader下载
-        [self.downloader downloadWithURL:url begin:begin progress:progress complete:complete];
-        
+        [self.downloadSession downloadWithURL:url begin:begin progress:progress complete:complete];
     });
     
 }
@@ -91,52 +73,48 @@
 #pragma mark - 
 - (void)startDownLoadWithUrl:(NSString *)url {
     // 本地查找
-    //dispatch_semaphore_wait([self getSemaphore], DISPATCH_TIME_FOREVER);
     NSDictionary *fileInfo = [SGCacheManager queryFileInfoWithUrl:url];
     
     if (fileInfo) {
-       // dispatch_semaphore_signal([self getSemaphore]);
         return;
     }
-
-    [self.downloader startDownLoadWithUrl:url];
+    //
+    [self.downloadSession startDownLoadWithUrl:url];
 }
 
-
 - (void)supendDownloadWithUrl:(NSString *)url {
-    
-    [_downloader supendDownloadWithUrl:url];
+    // 暂停下载
+    [_downloadSession supendDownloadWithUrl:url];
 }
 
 - (void)cancelDownloadWithUrl:(NSString *)url {
-    [_downloader cancelDownloadWithUrl:url];
+    // 取消下载
+    [_downloadSession cancelDownloadWithUrl:url];
 }
 
 
 /** 暂停当前所有的下载任务 下载任务不会从列队中删除 */
 - (void)suspendAllDownloadTask {
-    
+    [_downloadSession suspendAllDownloads];
 }
 
 /** 开启当前列队中所有被暂停的下载任务 */
 - (void)startAllDownloadTask {
-
+    [_downloadSession startAllDownloads];
 }
 
 /** 停止当前所有的下载任务 调用此方法会清空所有列队下载任务 */
 - (void)stopAllDownloads {
-    
-    [_downloader cancelAllDownloads];
-    _downloader = nil;
+    [_downloadSession cancelAllDownloads];
+    _downloadSession = nil;
 }
 
 #pragma mark - lazy load
-- (SGDownloader *)downloader {
-    
-    if (!_downloader) {
-        _downloader = [[SGDownloader alloc] init];
+- (SGDownloadSession *)downloadSession {
+    if (!_downloadSession) {
+        _downloadSession = [[SGDownloadSession alloc] init];
     }
-    return _downloader;
+    return _downloadSession;
 }
 
 @end

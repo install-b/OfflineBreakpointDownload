@@ -13,21 +13,16 @@
 @interface SGDownloadQueue ()
 // 列队管理集合
 @property (nonatomic,strong) NSMutableSet <SGDownloadOperation *> *operations;
-// 由downloader赋值 用于创建task任务 共享session
-@property (nonatomic,strong) NSURLSession *session;
 
 @end
 
 @implementation SGDownloadQueue
 
-- (instancetype)initWithSession:(NSURLSession *)sesseion {
+- (instancetype)init {
 
     if (self = [super init]) {
-        self.session = sesseion;
-        
         // 监听完成通知
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didResiveDownloadFileCompete:) name:SGDownloadCompleteNoti object:nil];
-        
     }
     return self;
 }
@@ -37,7 +32,6 @@
 }
 
 - (void)didResiveDownloadFileCompete:(NSNotification *)noti {
-
     SGDownloadOperation *operation = noti.object;
     if (operation) {
         [self.operations removeObject:operation];
@@ -45,13 +39,13 @@
 }
 
 #pragma mark - handle Out operations
-- (void)downloadWithURL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complet {
+- (void)addDownloadWithSession:(NSURLSession *)session URL:(NSURL *)url begin:(void(^)(NSString *))begin progress:(void(^)(NSInteger,NSInteger))progress complete:(void(^)(NSDictionary *,NSError *))complet {
     // 获取operation对象
     SGDownloadOperation *operation = [self operationWithUrl:url.absoluteString];
     
     if (operation == nil) {
         
-        operation = [[SGDownloadOperation alloc] initWith:url.absoluteString session:self.session];
+        operation = [[SGDownloadOperation alloc] initWith:url.absoluteString session:session];
         
         if (operation == nil) {
             // 没有下载任务代表已下载完成
@@ -119,6 +113,35 @@
     // 清理内存
     _operations = nil;
 }
+- (void)suspendAllTasks {
+    // 取消所有的任务
+    [_operations enumerateObjectsUsingBlock:^(SGDownloadOperation * _Nonnull obj, BOOL * _Nonnull stop) {
+        [obj.dataTask suspend];
+    }];
+}
+- (void)startAllTasks {
+    // 取消所有的任务
+    [_operations enumerateObjectsUsingBlock:^(SGDownloadOperation * _Nonnull obj, BOOL * _Nonnull stop) {
+        [obj.dataTask resume];
+    }];
+}
+
+
+#pragma mark - handle download
+- (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response {
+    
+    [[self oprationWithDataTask:dataTask] operateWithResponse:response];
+}
+
+- (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
+    [[self oprationWithDataTask:dataTask] operateWithReceivingData:data];
+}
+
+
+- (void)task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    [[self oprationWithDataTask:task] operateWithComplete:error];
+}
+
 
 #pragma mark - query operation
 - (SGDownloadOperation *)operationWithUrl:(NSString *)url{
@@ -136,7 +159,7 @@
 
 // 寻找operation
 - (SGDownloadOperation *)oprationWithDataTask:(NSURLSessionTask *)dataTask {
-
+    
     __block SGDownloadOperation *operation = nil;
     
     [self.operations enumerateObjectsUsingBlock:^(SGDownloadOperation * _Nonnull obj, BOOL * _Nonnull stop) {
@@ -148,24 +171,6 @@
     
     return operation;
 }
-
-
-#pragma mark - handle download
-- (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response {
-    
-    [[self oprationWithDataTask:dataTask] sg_didReceiveResponse:response];
-}
-
-- (void)dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
-    [[self oprationWithDataTask:dataTask] sg_didReceivData:data];
-}
-
-
-- (void)task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
-    [[self oprationWithDataTask:task] sg_didComplete:error];
-}
-
-
 #pragma mark - lazy load 
 - (NSMutableSet<SGDownloadOperation *> *)operations {
     
