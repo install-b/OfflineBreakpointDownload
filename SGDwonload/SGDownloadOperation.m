@@ -22,10 +22,10 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
 @property (nonatomic,strong) NSFileHandle *handle;
 
 /** 下载的文件总大小 */
-@property (nonatomic,assign) NSInteger totalSize;
+@property (nonatomic,assign) int64_t totalSize;
 
 /** 当前下载了多少 */
-@property (nonatomic,assign) NSInteger currentSize;
+@property (nonatomic,assign) int64_t currentSize;
 
 /** 当前下载文件名称 */
 @property (nonatomic,copy) NSString *fileName;
