@@ -52,7 +52,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
             return nil;
         }
         
-        _dataTask = [session sg_downloadDdataTaskWithURLString:url startSize:_currentSize];
+        _dataTask = [session sg_downloadDataTaskWithURLString:url startSize:_currentSize];
     }
     return _dataTask ? self : nil;
 }
@@ -83,20 +83,15 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
 #pragma mark - SGDownloadOperationProtocol
 // 接收到相应时
 - (void)sg_didReceiveResponse:(NSURLResponse *)response {
+    // 总的size
     self.totalSize = self.currentSize + response.expectedContentLength;
     
     // 创建空的文件夹
     if (self.currentSize == 0) {
+        // 创建空的文件
         [[NSFileManager defaultManager]  createFileAtPath:self.fullPath contents:nil attributes:nil];
     }
     
-    // 回调给外界
-    if (_didReceiveResponseCallBack) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            _didReceiveResponseCallBack(self.fullPath);
-        });
-        
-    }
     // 创建文件句柄
     self.handle = [NSFileHandle fileHandleForWritingAtPath:self.fullPath];
     
@@ -105,11 +100,22 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     
     // 开始下载记录文件下载信息
     [SGCacheManager saveFileInfoWithDict:[self downLoadInfoWithFinished:NO]];
+    
+    // 回调给外界
+    if (_didReceiveResponseCallBack) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _didReceiveResponseCallBack(self.fullPath);
+        });
+        
+    }
 }
 
 - (void)sg_didReceivData:(NSData *)data {
     // 获得已经下载的文件大小
     self.currentSize += data.length;
+    
+    // 写入文件
+    [self.handle writeData:data];
     
     // 下载状态 通知代理
     if (_didReceivDataCallBack) {
@@ -117,13 +123,12 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
             _didReceivDataCallBack(self.currentSize,self.totalSize);
         });
     }
-    
-    // 写入文件
-    [self.handle writeData:data];
 }
 
 - (void)sg_didComplete:(NSError *)error {
+    // 关闭文件句柄
     [self.handle closeFile];
+    // 释放文件句柄
     self.handle = nil;
     
     // 完成下载 通知 block
@@ -149,40 +154,41 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     // 获取下载信息
     NSDictionary *dict = [self downLoadInfoWithFinished:YES];
     
+    
+    // 通知
+    [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:self userInfo:dict];
+    
+    if (code == 1) {
+        // 存储 文件下载信息
+        [SGCacheManager saveFileInfoWithDict:dict];
+    }
+    
     // 回到主线程 回调
     if (_didCompleteCallBack) {
         dispatch_async(dispatch_get_main_queue(), ^{
             _didCompleteCallBack(dict,nil);
         });
     }
-    
-    // 通知
-    [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:self userInfo:dict];
-    
-    if (code == 2) {
-        return;
-    }
-    // 存储
-    [SGCacheManager saveFileInfoWithDict:dict];
 }
 
 /** 失败回调 */
 - (void)completFailueWithError:(NSError *)error {
-    // 回调
-    if (_didCompleteCallBack) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            _didCompleteCallBack(nil,error);
-        });
-    }
     
     // 发通知
     [[NSNotificationCenter defaultCenter] postNotificationName:SGDownloadCompleteNoti object:self userInfo:@{@"error":error}];
     // 存储
     [SGCacheManager saveFileInfoWithDict:[self downLoadInfoWithFinished:NO]];
     
+    // 回调
+    if (_didCompleteCallBack) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _didCompleteCallBack(nil,error);
+        });
+    }
 }
 
-
+#pragma mark - get download info
+// 构造回调信息
 - (NSDictionary *)downLoadInfoWithFinished:(BOOL)finished {
     return  @{
                 fileUrl    : self.url,
@@ -192,6 +198,5 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
                 totalSize  : @(self.totalSize),
                 isFinished : @(finished)
             };
-
 }
 @end

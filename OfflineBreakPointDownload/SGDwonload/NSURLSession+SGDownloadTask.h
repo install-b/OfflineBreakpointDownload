@@ -17,6 +17,6 @@
  @param startSize 开始的位置
  @return 下载任务
  */
-- (NSURLSessionDataTask *)sg_downloadDdataTaskWithURLString:(NSString *)urlString
+- (NSURLSessionDataTask *)sg_downloadDataTaskWithURLString:(NSString *)urlString
                                                   startSize:(NSUInteger)startSize;
 @end

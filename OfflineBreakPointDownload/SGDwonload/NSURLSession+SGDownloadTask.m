@@ -9,7 +9,7 @@
 #import "NSURLSession+SGDownloadTask.h"
 
 @implementation NSURLSession (SGDownloadTask)
-- (NSURLSessionDataTask *)sg_downloadDdataTaskWithURLString:(NSString *)urlString
+- (NSURLSessionDataTask *)sg_downloadDataTaskWithURLString:(NSString *)urlString
                                                   startSize:(NSUInteger)startSize {
     // 校验URL
     if (urlString.length == 0) {
