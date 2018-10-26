@@ -171,7 +171,7 @@
 				TargetAttributes = {
 					A75D1E631DE94FEE0008BAF6 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = QDH66RGJXX;
+						DevelopmentTeam = WZ22KTPCG8;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -359,11 +359,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = QDH66RGJXX;
+				DEVELOPMENT_TEAM = WZ22KTPCG8;
 				INFOPLIST_FILE = OfflineBreakPointDownload/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhangsg.OfflineBreakPointDownload;
+				PRODUCT_BUNDLE_IDENTIFIER = com.likebutton.zsg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -374,11 +374,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = QDH66RGJXX;
+				DEVELOPMENT_TEAM = WZ22KTPCG8;
 				INFOPLIST_FILE = OfflineBreakPointDownload/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhangsg.OfflineBreakPointDownload;
+				PRODUCT_BUNDLE_IDENTIFIER = com.likebutton.zsg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

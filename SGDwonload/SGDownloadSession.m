@@ -120,9 +120,9 @@ didReceiveResponse:(NSURLResponse *)response
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
         // 设置请求超时
         config.timeoutIntervalForRequest = -1;
-        config.networkServiceType = NSURLNetworkServiceTypeVideo;
-        config.timeoutIntervalForResource = -1;
-        config.TLSMaximumSupportedProtocol = kSSLProtocolAll;
+//        config.networkServiceType = NSURLNetworkServiceTypeVideo;
+//        config.timeoutIntervalForResource = -1;
+//        config.TLSMaximumSupportedProtocol = kSSLProtocolAll;
         
         _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue currentQueue]];
     }

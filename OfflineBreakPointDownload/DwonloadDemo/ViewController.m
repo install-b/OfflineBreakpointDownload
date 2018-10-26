@@ -100,8 +100,8 @@
 - (NSArray *)dataList {
     if (!_dataList) {
         _dataList = @[
-                      @"http://ftp.71chat.com/group1/M00/00/72/Cj2sS1ndg7CARyEyAVCEq5sDYms413.jpg",
-                      @"http://120.25.226.186:32812/resources/videos/minion_07.mp4",
+                      @"https://bityou-io.oss-cn-beijing.aliyuncs.com/4106469bc2c5a0a8_4a0280988003426f.mp3",
+                      @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537016004758&di=994420f271c6595be0272a5e3d0e956e&imgtype=0&src=http%3A%2F%2Fs16.sinaimg.cn%2Fmiddle%2F70858d01gc87794e6164f%26690",
                       @"http://120.25.226.186:32812/resources/videos/minion_08.mp4",
                       ];
     }
