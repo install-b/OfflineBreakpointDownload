@@ -77,20 +77,20 @@
 
     [[LYDownloadManager shareManager] downloadWithURL:url progress:^(NSInteger completeSize, NSInteger expectSize) { // 进度监听
         proressView.progress = 1.0 * completeSize / expectSize;
-        NSLog(@"任务：%zd -- %.2f%%",index,100.0 * completeSize / expectSize);
+        NSLog(@"任务：%d -- %.2f%%",(int)index,100.0 * completeSize / expectSize);
         
     }complete:^(NSDictionary *respose, NSError *error) {  // 下载完成
-                        
+        
         [sender setTitle:@"完成" forState:UIControlStateDisabled];
         sender.selected = NO;
         
         if(error) {
-            NSLog(@"任务：%zd 下载错误%@",index,error);
+            NSLog(@"任务：%d 下载错误%@",(int)index,error);
             
             return ;
         }
         proressView.progress = 1.0;
-        NSLog(@"任务：%zd 下载完成%@",index,respose);
+        NSLog(@"任务：%d 下载完成%@",(int)index,respose);
        
         sender.enabled = NO;
     }];

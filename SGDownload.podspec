@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SGDownload"
-  s.version      = "0.0.3"
+  s.version      = "0.0.4"
 
   s.summary      = "An iOS big file download tool"
   s.description    = "SGDownload is used to download Through which you can download it for big files At the same time support offline breakpoint downloading."

@@ -46,7 +46,7 @@
         // 取消所有session的任务
         // 耗时操作
         // 会调用 URLSession:task:didCompleteWithError: 方法抛出error取消
-        [_session invalidateAndCancel];
+        [self.session invalidateAndCancel];
     });
 }
 - (void)startAllDownloads {

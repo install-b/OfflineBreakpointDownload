@@ -13,11 +13,14 @@
 NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
 
 @interface SGDownloadOperation ()
-{
-    SGReceiveResponseOperation  _didReceiveResponseCallBack;
-    SGReceivDataOperation       _didReceivDataCallBack;
-    SGCompleteOperation         _didCompleteCallBack;
-}
+
+/* <#des#> */
+@property (nonatomic,copy) SGReceiveResponseOperation didReceiveResponseCallBack;
+/* <#des#> */
+@property (nonatomic,copy) SGReceivDataOperation didReceivDataCallBack;
+/* <#des#> */
+@property (nonatomic,copy) SGCompleteOperation didCompleteCallBack;
+
 /** 文件句柄 可以记录文件的下载的位置 */
 @property (nonatomic,strong) NSFileHandle *handle;
 
@@ -104,7 +107,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     // 回调给外界
     if (_didReceiveResponseCallBack) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            _didReceiveResponseCallBack(self.fullPath);
+            self.didReceiveResponseCallBack(self.fullPath);
         });
         
     }
@@ -120,7 +123,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     // 下载状态 通知代理
     if (_didReceivDataCallBack) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            _didReceivDataCallBack((NSUInteger)self.currentSize,(NSUInteger)self.totalSize);
+            self.didReceivDataCallBack((NSUInteger)self.currentSize,(NSUInteger)self.totalSize);
         });
     }
 }
@@ -166,7 +169,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     // 回到主线程 回调
     if (_didCompleteCallBack) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            _didCompleteCallBack(dict,nil);
+            self.didCompleteCallBack(dict,nil);
         });
     }
 }
@@ -182,7 +185,7 @@ NSString * const SGDownloadCompleteNoti = @"SGDownloadCompleteNoti";
     // 回调
     if (_didCompleteCallBack) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            _didCompleteCallBack(nil,error);
+            self.didCompleteCallBack(nil,error);
         });
     }
 }

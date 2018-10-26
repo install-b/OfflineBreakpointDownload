@@ -29,7 +29,7 @@
      bytes=200-     从200开始直到结尾
      bytes=-100
      */
-    NSString *rangeStr = [NSString stringWithFormat:@"bytes=%zd-",startSize];
+    NSString *rangeStr = [NSString stringWithFormat:@"bytes=%lld-",startSize];
     
     [request setValue:rangeStr forHTTPHeaderField:@"Range"];
     
